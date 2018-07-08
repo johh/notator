@@ -22,7 +22,7 @@
     "effect"
   ],
   "author": "JohH <code@johh.net>",
-  "license": "MIT",
+  "license": "BSD-4-Clause",
   "private": true,
   "devDependencies": {
     "babel-cli": "^6.26.0",
