@@ -1,4 +1,6 @@
 import Context from './Context';
+import Part from './Part';
+import ActionSound from './ActionSound';
 
 
 export default class Timeline {
@@ -24,16 +26,21 @@ export default class Timeline {
 
 
 	play( part ) {
-		if ( !this.running ) {
-			this.startTime = Context.context.currentTime;
-			this.running = true;
-		}
-		// TODO: check for duplicate
-		// TODO: check if already connected
-		part.setTimeline( this );
-		this.parts.push( part );
+		if ( part instanceof Part ) {
+			if ( !this.running ) {
+				this.startTime = Context.context.currentTime;
+				this.running = true;
+			}
+			// TODO: check for duplicate
+			// TODO: check if already connected
+			part.setTimeline( this );
+			this.parts.push( part );
 
-		part.play( 0 );
+			part.play( 0 );
+		} else if ( part instanceof ActionSound ) {
+			part.setTimeline( this );
+			part.play();
+		}
 	}
 
 

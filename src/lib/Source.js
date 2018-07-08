@@ -1,4 +1,5 @@
 import Context from './Context';
+import Layer from './Layer';
 
 
 export default class Source {
@@ -44,7 +45,7 @@ export default class Source {
 		let lastNode = this.node;
 		const effects = [].concat(
 			this.parent.effects,
-			this.parent.part.effects,
+			( this.parent instanceof Layer ) ? this.parent.part.effects : [],
 			this.parent.timeline.effects,
 		);
 
