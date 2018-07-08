@@ -7,13 +7,14 @@ export default class Layer {
 	sources = []
 	preparedSource = null
 	loopScheduled = false
+	lastPlayStart = 0
+
 
 	constructor({
 		file = '',
 		duration = 1,
 		smoothEnd = .15,
 		loop = false,
-		lastPlayStart = 0,
 		effects = [],
 	} = {}) {
 		this.loop = loop;

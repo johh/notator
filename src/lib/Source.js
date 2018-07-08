@@ -20,11 +20,22 @@ export default class Source {
 	}
 
 	play( time = 0 ) {
-		this.src.start( time + this.parent.timeline.startTime );
-		if ( this.fade > 0 ) {
+		const {
+			parent: { timeline },
+			src,
+			fade,
+			node,
+		} = this;
+
 		this.mount();
+		src.start( timeline.toAbs( time ) );
+		if ( fade > 0 ) {
 			// this.node.gain.setTargetAtTime( 1, time + this.fade, this.fade );
-			this.node.gain.setTargetAtTime( 0, ( time + this.src.buffer.duration ) - ( this.fade * 1.5 ), this.fade );
+			node.gain.setTargetAtTime(
+				0,
+				timeline.toAbs( ( time + src.buffer.duration ) - ( fade * 1.5 ) ),
+				fade,
+			);
 		}
 	}
 

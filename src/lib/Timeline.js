@@ -44,6 +44,11 @@ export default class Timeline {
 	}
 
 
+	toAbs( time ) {
+		return time + this.startTime;
+	}
+
+
 	get currentTime() {
 		if ( Context.context && this.running ) {
 			return Context.context.currentTime - this.startTime;
