@@ -13,12 +13,16 @@ export default class Layer {
 	constructor({
 		file = '',
 		duration = 1,
+		padding = 0,
+		offset = 0,
 		smoothEnd = .15,
 		loop = false,
 		effects = [],
 	} = {}) {
 		this.loop = loop;
 		this.duration = duration;
+		this.padding = padding;
+		this.offset = offset;
 		this.smoothEnd = smoothEnd;
 		this.effects = effects;
 
@@ -67,12 +71,17 @@ export default class Layer {
 	}
 
 
-	play( time = 0, endTime = this.loopEndTime ) {
-		console.log( 'start', time / 4, endTime / 4 );
+	play( _time = 0, endTime = this.loopEndTime ) {
 		const { barDuration } = this.timeline;
+		let time = _time + ( barDuration * this.padding );
+
 
 		this.loopEndTime = endTime;
 		this.lastPlayStart = time;
+
+		time += this.offset * barDuration;
+
+		console.log( 'start', time / 4, endTime / 4 );
 
 		if ( this.preparedSource ) {
 			const src = this.preparedSource;
