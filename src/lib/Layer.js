@@ -1,11 +1,9 @@
 import Context from './Context';
-import Source from './Source';
+import Playable from './Playable';
 
 
-export default class Layer {
+export default class Layer extends Playable {
 	loaded = false
-	sources = []
-	preparedSource = null
 	loopScheduled = false
 	lastPlayStart = 0
 
@@ -19,6 +17,8 @@ export default class Layer {
 		loop = false,
 		effects = [],
 	} = {}) {
+		super();
+
 		this.loop = loop;
 		this.duration = duration;
 		this.padding = padding;
@@ -38,27 +38,6 @@ export default class Layer {
 	}
 
 
-	prepare() {
-		if ( !this.preparedSource ) {
-			const src = new Source({
-				buffer: this.buffer,
-				parent: this,
-				fade: this.smoothEnd,
-			});
-			this.sources.push( src );
-			this.preparedSource = src;
-		} else {
-			console.warn( 'Already prepared!' );
-		}
-	}
-
-
-	destroySource( src ) {
-		this.sources.splice( this.sources.findIndex( s => s === src ), 1 );
-		src.destroy();
-	}
-
-
 	play( _time = 0, endTime = this.loopEndTime ) {
 		const { barDuration } = this.timeline;
 		let time = _time + ( barDuration * this.padding );
@@ -71,13 +50,7 @@ export default class Layer {
 
 		console.log( 'start', time / 4, endTime / 4 );
 
-		if ( this.preparedSource ) {
-			const src = this.preparedSource;
-			this.preparedSource = null;
-
-			src.play( time );
-			this.prepare();
-		}
+		super.play( time );
 
 		if ( this.loop ) {
 			if ( this.lastPlayStart + ( 2 * this.duration * barDuration ) <= endTime ) {
