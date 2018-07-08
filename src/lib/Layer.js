@@ -31,21 +31,10 @@ export default class Layer {
 			.then( buffer => Context.context.decodeAudioData( buffer ) )
 			.then( ( audio ) => {
 				this.buffer = audio;
-				// this.sourceNode = Context.context.createBufferSource();
-				// this.sourceNode.buffer = audio;
-				// this.sourceNode.loop = true;
-
-				// this.gainNode = Context.context.createGain();
-				// this.sourceNode.connect( this.gainNode );
-
 				this.prepare();
-
-				// this.play();
 				this.loaded = true;
 			})
 			.catch( e => console.error( `Failed to load "${file}"`, e ) );
-
-		// window.requestAnimationFrame( () => this.tick() ); // TEMP!
 	}
 
 
@@ -56,7 +45,6 @@ export default class Layer {
 				parent: this,
 				fade: this.smoothEnd,
 			});
-			// src.node.connect( Context.context.destination );
 			this.sources.push( src );
 			this.preparedSource = src;
 		} else {
@@ -109,6 +97,5 @@ export default class Layer {
 				this.play( ( currentBar + 1 ) * barDuration );
 			}
 		}
-		// window.requestAnimationFrame( () => this.tick() ); // TEMP!
 	}
 }
