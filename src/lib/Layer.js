@@ -14,10 +14,12 @@ export default class Layer {
 		smoothEnd = .15,
 		loop = false,
 		lastPlayStart = 0,
+		effects = [],
 	} = {}) {
 		this.loop = loop;
 		this.duration = duration;
 		this.smoothEnd = smoothEnd;
+		this.effects = effects;
 
 		fetch( file )
 			.then( response => response.arrayBuffer() )
@@ -49,7 +51,7 @@ export default class Layer {
 				parent: this,
 				fade: this.smoothEnd,
 			});
-			src.node.connect( Context.context.destination );
+			// src.node.connect( Context.context.destination );
 			this.sources.push( src );
 			this.preparedSource = src;
 		} else {

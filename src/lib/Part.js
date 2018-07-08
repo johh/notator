@@ -5,8 +5,10 @@ export default class Part {
 	constructor({
 		duration = 4,
 		layers = [],
+		effects = [],
 	} = {}) {
 		this.duration = duration;
+		this.effects = effects;
 		layers.forEach( layer => this.append( layer ) );
 
 		console.log( duration );

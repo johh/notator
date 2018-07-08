@@ -10,9 +10,12 @@ export default class Timeline {
 		bpm = 60,
 		bpb = 4,
 		tickrate = 8,
+		effects = [],
 	} = {}) {
 		this.barDuration = 60 / ( bpm / bpb );
 		this.tickrate = tickrate;
+		this.effects = effects;
+
 		Context.onInit( () => {
 			console.log( bpm, this.barDuration, this.startTime );
 			this.tick();
