@@ -6,12 +6,12 @@ export default class Part {
 		duration = 4,
 		layers = [],
 		effects = [],
+		loop = false,
 	} = {}) {
 		this.duration = duration;
 		this.effects = effects;
+		this.loop = loop;
 		layers.forEach( layer => this.append( layer ) );
-
-		console.log( duration );
 	}
 
 
@@ -20,7 +20,6 @@ export default class Part {
 		// TODO: check if already connected
 		layer.part = this;
 		this.layers.push( layer );
-		// layer.timeline = this.timeline;
 	}
 
 
@@ -30,9 +29,19 @@ export default class Part {
 
 
 	play( time = 0 ) {
-		const endTime = time + ( this.duration * this.timeline.barDuration );
+		this.endTime = time + ( this.duration * this.timeline.barDuration );
 
-		this.layers.forEach( layer => layer.play( time, endTime ) );
+		this.layers.forEach( layer => layer.play( time, this.endTime ) );
+	}
+
+
+	destroy() {
+		this.timeline.removePart( this );
+	}
+
+
+	tick() {
+		if ( this.timeline.currentTime >= this.endTime ) this.destroy();
 	}
 
 

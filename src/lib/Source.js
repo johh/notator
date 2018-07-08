@@ -28,10 +28,10 @@ export default class Source {
 			node,
 		} = this;
 
+
 		this.mount();
 		src.start( timeline.toAbs( time ) );
 		if ( fade > 0 ) {
-			// this.node.gain.setTargetAtTime( 1, time + this.fade, this.fade );
 			node.gain.setTargetAtTime(
 				0,
 				timeline.toAbs( ( time + src.buffer.duration ) - ( fade * 1.5 ) ),

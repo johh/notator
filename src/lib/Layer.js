@@ -54,7 +54,7 @@ export default class Layer extends Playable {
 
 		if ( this.loop ) {
 			if ( this.lastPlayStart + ( 2 * this.duration * barDuration ) <= endTime ) {
-				this.shouldRescheduleOn = Math.floor( time / barDuration ) + ( this.duration - 1 );
+				this.shouldRescheduleOn = Math.floor( time / barDuration ) + this.duration;
 			} else {
 				this.shouldRescheduleOn = false;
 			}
@@ -64,10 +64,10 @@ export default class Layer extends Playable {
 
 	tick() {
 		if ( this.loop ) {
-			const { barDuration, currentBar } = this.timeline;
+			const { barDuration, currentBarExact } = this.timeline;
 
-			if ( this.shouldRescheduleOn === currentBar ) {
-				this.play( ( currentBar + 1 ) * barDuration );
+			if ( this.shouldRescheduleOn && this.shouldRescheduleOn - currentBarExact <= this.timeline.lookahead ) {
+				this.play( ( this.shouldRescheduleOn ) * barDuration );
 			}
 		}
 	}
