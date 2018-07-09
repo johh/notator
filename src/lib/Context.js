@@ -22,6 +22,7 @@ class Context {
 		this.initialized = true;
 
 		this.initFunctions.forEach( func => func() );
+		this.initFunctions = [];
 	}
 
 
