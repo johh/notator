@@ -1,5 +1,6 @@
 import Context from '../Context';
 import Effect from './Effect';
+import fetchAudio from '../utils/fetchAudio';
 
 
 export default class Convolver extends Effect {
@@ -12,24 +13,12 @@ export default class Convolver extends Effect {
 		}
 		super();
 
-		fetch( ir )
-			.then( response => response.arrayBuffer() )
-			.then( buffer => Context.context.decodeAudioData( buffer ) )
-			.then( ( audio ) => {
-				this.ir = audio;
-				// this.sourceNode = Context.context.createBufferSource();
-				// this.sourceNode.buffer = audio;
-				// this.sourceNode.loop = true;
-
-				// this.gainNode = Context.context.createGain();
-				// this.sourceNode.connect( this.gainNode );
-
-				// this.play();
-				this.loaded = true;
-			})
-			.catch( e => console.error( `Failed to load "${ir}"`, e ) );
-
 		this.normalize = normalize;
+
+		fetchAudio( ir ).then( ( audio ) => {
+			this.ir = audio;
+			this.loaded = true;
+		});
 	}
 
 

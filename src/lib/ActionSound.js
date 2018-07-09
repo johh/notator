@@ -1,4 +1,3 @@
-import Context from './Context';
 import Playable from './Playable';
 
 
@@ -17,15 +16,7 @@ export default class ActionSound extends Playable {
 		this.effects = effects;
 		this.quantize = quantize;
 
-		fetch( file )
-			.then( response => response.arrayBuffer() )
-			.then( buffer => Context.context.decodeAudioData( buffer ) )
-			.then( ( audio ) => {
-				this.buffer = audio;
-				this.prepare();
-				this.loaded = true;
-			})
-			.catch( e => console.error( `Failed to load "${file}"`, e ) );
+		this.load( file );
 	}
 
 

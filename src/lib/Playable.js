@@ -1,9 +1,11 @@
 import Source from './Source';
+import fetchAudio from './utils/fetchAudio';
 
 
 export default class Playable {
 	sources = []
 	preparedSource = null
+
 
 	prepare() {
 		if ( !this.preparedSource ) {
@@ -23,6 +25,15 @@ export default class Playable {
 	destroySource( src ) {
 		this.sources.splice( this.sources.findIndex( s => s === src ), 1 );
 		src.destroy();
+	}
+
+
+	load( file ) {
+		fetchAudio( file ).then( ( audio ) => {
+			this.buffer = audio;
+			this.prepare();
+			this.loaded = true;
+		});
 	}
 
 
