@@ -1,10 +1,12 @@
 import Source from './Source';
+import EventTarget from './EventTarget';
 import fetchAudio from './utils/fetchAudio';
 
 
-export default class Playable {
+export default class Playable extends EventTarget {
 	sources = []
 	preparedSource = null
+	firstPlay = true
 
 
 	prepare() {
@@ -33,6 +35,7 @@ export default class Playable {
 			this.buffer = audio;
 			this.prepare();
 			this.loaded = true;
+			this.dispatchEvent( 'load' );
 		});
 	}
 
@@ -45,5 +48,11 @@ export default class Playable {
 			src.play( time );
 			this.prepare();
 		}
+		this.firstPlay = false;
+	}
+
+
+	destroy() {
+		this.firstPlay = true;
 	}
 }

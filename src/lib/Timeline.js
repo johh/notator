@@ -66,6 +66,8 @@ export default class Timeline {
 			const time = this.currentPart.startTime +
 				( Math.ceil( this.currentPart.part.duration ) * this.barDuration );
 
+			this.currentPart.part.destroy();
+
 			this.currentPart = {
 				part: this.queue.shift(),
 				startTime: time,

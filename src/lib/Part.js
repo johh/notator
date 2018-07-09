@@ -1,6 +1,10 @@
-export default class Part {
+import EventTarget from './EventTarget';
+
+
+export default class Part extends EventTarget {
 	layers = []
 	timeline = null
+	firstPlay = true
 
 	constructor({
 		duration = 4,
@@ -8,6 +12,8 @@ export default class Part {
 		effects = [],
 		loop = false,
 	} = {}) {
+		super();
+
 		this.duration = duration;
 		this.effects = effects;
 		this.loop = loop;
@@ -20,11 +26,13 @@ export default class Part {
 		// TODO: check if already connected
 		layer.part = this;
 		this.layers.push( layer );
+		this.dispatchEvent( 'append', layer );
 	}
 
 
 	remove( layer ) {
 		this.layers.splice( this.layers.findIndex( l => l === layer ), 1 );
+		this.dispatchEvent( 'remove', layer );
 	}
 
 
@@ -32,11 +40,18 @@ export default class Part {
 		this.endTime = time + ( this.duration * this.timeline.barDuration );
 
 		this.layers.forEach( layer => layer.play( time, this.endTime ) );
+
+		this.dispatchEvent( this.firstPlay ? 'play' : 'loop', time - this.timeline.currentTime );
+
+		this.firstPlay = false;
 	}
 
 
 	destroy() {
 		this.timeline.removePart( this );
+		this.layers.forEach( layer => layer.destroy() );
+		this.firstPlay = true;
+		this.dispatchEvent( 'end' );
 	}
 
 
