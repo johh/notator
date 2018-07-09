@@ -4,14 +4,17 @@ class Context {
 	initFunctions = []
 
 	init() {
-		if ( window.AudioContext ) {
-			const context = new AudioContext();
+		if ( window.AudioContext || window.webkitAudioContext ) {
+			this.isSafari = !window.AudioContext && !!window.webkitAudioContext;
+
+			const context = new ( window.AudioContext || window.webkitAudioContext )();
 			context.onstatechange = () => {
 				if ( context.state === 'running' ) {
 					this.context = context;
 					if ( !this.initialized ) this._initChildren();
 				}
 			};
+			context.resume();
 		} else {
 			console.error( 'This browser does not support WebAudio.' );
 		}

@@ -11,18 +11,30 @@ export default class Panner extends Effect {
 		this._pan = pan;
 		Context.onInit( () => {
 			this.pan = this._pan;
+
+			if ( !Context.context.createStereoPanner ) {
+				console.error( 'StereoPanner is not supported by this browser.' );
+				this.disabled = true;
+			}
 		});
 	}
 
 
 	mount( src ) {
-		if ( !this.isConnected( src ) ) {
+		if ( !this.isConnected( src ) && Context.context.createStereoPanner ) {
 			const node = Context.context.createStereoPanner();
 			node.pan.value = this._pan;
 
 			return super.mount( src, node );
 		}
 		return src;
+	}
+
+	unmount( src ) {
+		if ( this.disabled ) {
+			return src;
+		}
+		return super.unmount( src );
 	}
 
 
