@@ -17,7 +17,13 @@ export default {
 * licensed under BSD-4-Clause
 * https://johh.net/notator
 **/`,
-		intro: `console.log('%c№ — notator %cv${info.version}', 'font-size: large; font-family: sans-serif;', 'font: monospace; color: #666;');`,
+		intro: `
+console.groupCollapsed('%c№ — notator', 'font-size: large; font-family: sans-serif;');
+console.log( '${info.description}' );
+console.log( '${info.homepage}' );
+console.log( '%cv${info.version}', 'font: monospace; color: #666;' );
+console.groupEnd();
+`,
 	},
 	plugins: [
 		resolve(),
