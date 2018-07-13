@@ -4,11 +4,18 @@ import Effect from './Effect';
 
 export default class Gain extends Effect {
 	_value = 1
-
+	_smoothing = .001
 
 	constructor( gain = 1 ) {
 		super();
-		this._value = gain;
+
+		if ( typeof gain === 'object' ) {
+			this._value = gain.gain;
+			this._smoothing = gain.smoothing;
+		} else {
+			this._value = parseFloat( gain );
+		}
+
 		Context.onInit( () => {
 			this.gain = this._value;
 		});
@@ -27,11 +34,13 @@ export default class Gain extends Effect {
 
 
 	set gain( val ) {
-		this._value = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.gain.cancelScheduledValues( 0 );
-			n.effectNode.gain.setTargetAtTime( val, 0, .001 );
-		});
+		if ( val !== this._value ) {
+			this._value = val;
+			this.nodes.forEach( ( n ) => {
+				n.effectNode.gain.cancelScheduledValues( 0 );
+				n.effectNode.gain.setTargetAtTime( val, 0, this._smoothing );
+			});
+		}
 	}
 
 
