@@ -29,7 +29,8 @@ export default class Gain extends Effect {
 	set gain( val ) {
 		this._value = val;
 		this.nodes.forEach( ( n ) => {
-			n.effectNode.gain.value = val;
+			n.effectNode.gain.cancelScheduledValues( 0 );
+			n.effectNode.gain.setTargetAtTime( val, 0, .001 );
 		});
 	}
 
