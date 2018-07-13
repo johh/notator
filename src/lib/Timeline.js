@@ -23,7 +23,6 @@ export default class Timeline {
 		this.effects = effects;
 
 		Context.onInit( () => {
-			console.log( bpm, this.barDuration, Context.context.currentTime );
 			this.tick();
 		});
 	}
@@ -32,14 +31,16 @@ export default class Timeline {
 	play( part ) {
 		if ( part instanceof Part ) {
 			if ( !this.running ) {
-				this.startTime = Context.context.currentTime;
-				this.running = true;
+				Context.onInit( () => {
+					this.startTime = Context.context.currentTime;
+					this.running = true;
+				});
 			}
 			// TODO: check for duplicate
 			// TODO: check if already connected
+
 			part.setTimeline( this );
 			this.parts.push( part );
-
 			this.queue.push( part );
 		} else if ( part instanceof ActionSound ) {
 			part.setTimeline( this );
