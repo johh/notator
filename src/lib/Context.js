@@ -3,7 +3,7 @@ class Context {
 	initialized = false
 	initFunctions = []
 
-	init() {
+	constructor() {
 		if ( window.AudioContext || window.webkitAudioContext ) {
 			this.isSafari = !window.AudioContext && !!window.webkitAudioContext;
 
@@ -14,10 +14,16 @@ class Context {
 					if ( !this.initialized ) this._initChildren();
 				}
 			};
-			context.resume();
 		} else {
 			console.error( 'This browser does not support WebAudio.' );
 		}
+	}
+
+
+	start() {
+		this.onInit( () => {
+			this.context.resume();
+		});
 	}
 
 
