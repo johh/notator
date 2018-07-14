@@ -1,5 +1,6 @@
 import Context from '../Context';
 import Effect from './Effect';
+import ParamProxy from './ParamProxy';
 
 
 export default class BiquadFilter extends Effect {
@@ -10,26 +11,33 @@ export default class BiquadFilter extends Effect {
 		type = 'lowpass',
 	} = {}) {
 		super();
-		this._frequency = frequency;
-		this._Q = Q;
-		this._gain = gain;
-		this._type = type;
 
-		Context.onInit( () => {
-			this.frequency = this._frequency;
-			this.Q = this._Q;
-			this.gain = this._gain;
-			this.type = this._type;
+
+		this._frequency = new ParamProxy({
+			prop: 'frequency',
+			value: frequency,
+			nodes: this.nodes,
 		});
+		this._Q = new ParamProxy({
+			prop: 'Q',
+			value: Q,
+			nodes: this.nodes,
+		});
+		this._gain = new ParamProxy({
+			prop: 'gain',
+			value: gain,
+			nodes: this.nodes,
+		});
+		this._type = type;
 	}
 
 
 	mount( src ) {
 		if ( !this.isConnected( src ) ) {
 			const node = Context.context.createBiquadFilter();
-			node.frequency.value = this._frequency;
-			node.Q.value = this._Q;
-			node.gain.value = this._gain;
+			node.frequency.value = this._frequency.value;
+			node.Q.value = this._Q.value;
+			node.gain.value = this._gain.value;
 			node.type = this._type;
 
 			return super.mount( src, node );
@@ -39,41 +47,32 @@ export default class BiquadFilter extends Effect {
 
 
 	set frequency( val ) {
-		this._frequency = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.frequency.value = val;
-		});
+		this._frequency.set( val );
 	}
 
 
 	get frequency() {
-		return this._frequency;
+		return this._frequency.value;
 	}
 
 
 	set Q( val ) {
-		this._Q = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.Q.value = val;
-		});
+		this._Q.set( val );
 	}
 
 
 	get Q() {
-		return this._Q;
+		return this._Q.value;
 	}
 
 
 	set gain( val ) {
-		this._gain = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.gain.value = val;
-		});
+		this._gain.set( val );
 	}
 
 
 	get gain() {
-		return this._gain;
+		return this._gain.value;
 	}
 
 

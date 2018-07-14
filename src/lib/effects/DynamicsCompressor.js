@@ -1,5 +1,6 @@
 import Context from '../Context';
 import Effect from './Effect';
+import ParamProxy from './ParamProxy';
 
 
 export default class DynamicsCompressor extends Effect {
@@ -11,18 +12,30 @@ export default class DynamicsCompressor extends Effect {
 		release = .25,
 	} = {}) {
 		super();
-		this._threshold = threshold;
-		this._knee = knee;
-		this._ratio = ratio;
-		this._attack = attack;
-		this._release = release;
-
-		Context.onInit( () => {
-			this.threshold = this._threshold;
-			this.knee = this._knee;
-			this.ratio = this._ratio;
-			this.attack = this._attack;
-			this.release = this._release;
+		this._threshold = new ParamProxy({
+			prop: 'threshold',
+			value: threshold,
+			nodes: this.nodes,
+		});
+		this._knee = new ParamProxy({
+			prop: 'knee',
+			value: knee,
+			nodes: this.nodes,
+		});
+		this._ratio = new ParamProxy({
+			prop: 'ratio',
+			value: ratio,
+			nodes: this.nodes,
+		});
+		this._attack = new ParamProxy({
+			prop: 'attack',
+			value: attack,
+			nodes: this.nodes,
+		});
+		this._release = new ParamProxy({
+			prop: 'release',
+			value: release,
+			nodes: this.nodes,
 		});
 	}
 
@@ -30,11 +43,11 @@ export default class DynamicsCompressor extends Effect {
 	mount( src ) {
 		if ( !this.isConnected( src ) ) {
 			const node = Context.context.createDynamicsCompressor();
-			node.threshold.value = this._threshold;
-			node.knee.value = this._knee;
-			node.ratio.value = this._ratio;
-			node.attack.value = this._attack;
-			node.release.value = this._release;
+			node.threshold.value = this._threshold.value;
+			node.knee.value = this._knee.value;
+			node.ratio.value = this._ratio.value;
+			node.attack.value = this._attack.value;
+			node.release.value = this._release.value;
 
 			return super.mount( src, node );
 		}
@@ -43,66 +56,51 @@ export default class DynamicsCompressor extends Effect {
 
 
 	set threshold( val ) {
-		this._threshold = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.threshold.value = val;
-		});
+		this._threshold.set( val );
 	}
 
 
 	get threshold() {
-		return this._threshold;
+		return this._threshold.value;
 	}
 
 
 	set knee( val ) {
-		this._knee = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.knee.value = val;
-		});
+		this._knee.set( val );
 	}
 
 
 	get knee() {
-		return this._knee;
+		return this._knee.value;
 	}
 
 
 	set ratio( val ) {
-		this._ratio = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.ratio.value = val;
-		});
+		this._ratio.set( val );
 	}
 
 
 	get ratio() {
-		return this._ratio;
+		return this._ratio.value;
 	}
 
 
 	set attack( val ) {
-		this._attack = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.attack.value = val;
-		});
+		this._attack.set( val );
 	}
 
 
 	get attack() {
-		return this._attack;
+		return this._attack.value;
 	}
 
 
 	set release( val ) {
-		this._release = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.release.value = val;
-		});
+		this._release.set( val );
 	}
 
 
 	get release() {
-		return this._release;
+		return this._release.value;
 	}
 }

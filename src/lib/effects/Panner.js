@@ -1,5 +1,6 @@
 import Context from '../Context';
 import Effect from './Effect';
+import ParamProxy from './ParamProxy';
 
 
 export default class Panner extends Effect {
@@ -8,10 +9,14 @@ export default class Panner extends Effect {
 
 	constructor( pan = 0 ) {
 		super();
-		this._pan = pan;
-		Context.onInit( () => {
-			this.pan = this._pan;
 
+		this._pan = new ParamProxy({
+			prop: 'pan',
+			value: pan,
+			nodes: this.nodes,
+		});
+
+		Context.onInit( () => {
 			if ( !Context.context.createStereoPanner ) {
 				console.error( 'StereoPanner is not supported by this browser.' );
 				this.disabled = true;
@@ -23,12 +28,13 @@ export default class Panner extends Effect {
 	mount( src ) {
 		if ( !this.isConnected( src ) && Context.context.createStereoPanner ) {
 			const node = Context.context.createStereoPanner();
-			node.pan.value = this._pan;
+			node.pan.value = this._pan.value;
 
 			return super.mount( src, node );
 		}
 		return src;
 	}
+
 
 	unmount( src ) {
 		if ( this.disabled ) {
@@ -39,14 +45,11 @@ export default class Panner extends Effect {
 
 
 	set pan( val ) {
-		this._pan = val;
-		this.nodes.forEach( ( n ) => {
-			n.effectNode.pan.value = val;
-		});
+		this._pan.set( val );
 	}
 
 
 	get pan() {
-		return this._pan;
+		return this._pan.value;
 	}
 }
