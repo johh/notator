@@ -38,6 +38,7 @@ export default class Timeline {
 			}
 			// TODO: check for duplicate
 			// TODO: check if already connected
+			// TODO: check if context is active
 
 			part.setTimeline( this );
 			this.parts.push( part );

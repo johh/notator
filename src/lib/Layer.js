@@ -39,7 +39,7 @@ export default class Layer extends Playable {
 
 		time += this.offset * barDuration;
 
-		console.log( 'start', time / 4, endTime / 4 );
+		// console.log( 'start', time / 4, endTime / 4 );
 
 		super.play( time );
 

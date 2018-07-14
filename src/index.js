@@ -1,4 +1,4 @@
-export { default } from './lib/Context';
+export { default as Context } from './lib/Context';
 
 export { default as Layer } from './lib/Layer';
 export { default as Part } from './lib/Part';
