@@ -1,5 +1,5 @@
 # № — notator
-#### A Web Audio Engine for interactive soundtracks
+#### A Web Audio engine for interactive soundtracks
 
 
 ## Browser support

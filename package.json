@@ -1,12 +1,12 @@
 {
   "name": "notator",
   "version": "0.0.1",
-  "description": "Web Audio framework for interactive soundtracks",
+  "description": "Web Audio engine for interactive soundtracks",
   "main": "dist/index.js",
-  "homepage": "https://bitbucket.org/JohH/notator#readme",
+  "homepage": "https://github.com/johh/notator",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/JohH/notator.git"
+    "url": "https://github.com/johh/notator.git"
   },
   "scripts": {
     "build": "npm run clean:build && cross-env BABEL_ENV=production rollup -c",
