@@ -38,7 +38,6 @@ export default class Timeline {
 			}
 			// TODO: check for duplicate
 			// TODO: check if already connected
-			// TODO: check if context is active
 
 			part.setTimeline( this );
 			this.parts.push( part );
@@ -93,7 +92,7 @@ export default class Timeline {
 	tick() {
 		this.parts.forEach( part => part.layers.forEach( layer => layer.tick() ) );
 
-		if ( !this.currentPart && this.queue.length > 0 ) {
+		if ( !this.currentPart && this.queue.length > 0 && this.running ) {
 			this.scheduleNextPart();
 		} else if ( this.currentPart &&
 			( this.currentPart.part.duration * this.barDuration ) -
