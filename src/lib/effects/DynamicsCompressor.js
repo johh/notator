@@ -1,6 +1,6 @@
 import Context from '../Context';
 import Effect from './Effect';
-import ParamProxy from './ParamProxy';
+import ParamProxy from '../utils/ParamProxy';
 
 
 export default class DynamicsCompressor extends Effect {
