@@ -1,10 +1,13 @@
 import Context from '../Context';
-import Effect from './Effect';
+import Connectable from '../Connectable';
 import ParamProxy from '../utils/ParamProxy';
+import normalize from '../utils/normalize';
 
 
-export default class Panner extends Effect {
-	_pan = 0
+export default class Panner extends Connectable {
+	nodes = []
+	gainLeftNodes = []
+	gainRightNodes = []
 
 
 	constructor( pan = 0 ) {
@@ -16,36 +19,124 @@ export default class Panner extends Effect {
 			nodes: this.nodes,
 		});
 
+		const gain = Panner.gainFromPan( pan );
+
+		this._gainLeft = new ParamProxy({
+			prop: 'gain',
+			value: {
+				value: gain.left,
+				smoothing: gain.smoothing,
+			},
+			nodes: this.gainLeftNodes,
+		});
+
+		this._gainRight = new ParamProxy({
+			prop: 'gain',
+			value: {
+				value: gain.right,
+				smoothing: gain.smoothing,
+			},
+			nodes: this.gainRightNodes,
+		});
+
 		Context.onInit( () => {
-			if ( !Context.context.createStereoPanner ) {
-				console.error( 'StereoPanner is not supported by this browser.' );
-				this.disabled = true;
-			}
+			this.native = !!Context.context.createStereoPanner;
 		});
 	}
 
 
-	mount( src ) {
-		if ( !this.isConnected( src ) && Context.context.createStereoPanner ) {
-			const node = Context.context.createStereoPanner();
-			node.pan.value = this._pan.value;
+	static gainFromPan( pan ) {
+		const p = pan.value || pan;
+		const smoothing = pan.smoothing || .001;
 
-			return super.mount( src, node );
-		}
-		return src;
+		return {
+			left: normalize( p, 1, -1, true ),
+			right: normalize( p, -1, 1, true ),
+			smoothing,
+		};
 	}
 
 
-	unmount( src ) {
-		if ( this.disabled ) {
-			return src;
+	createNode( src ) {
+		if ( this.native ) {
+			const node = Context.context.createStereoPanner();
+
+			node.pan.value = this._pan.value;
+			src.connect( node );
+
+			this.nodes.push({
+				src,
+				effectNode: node,
+			});
+
+			return node;
 		}
-		return super.unmount( src );
+
+		const splitter = Context.context.createChannelSplitter( 2 );
+		const merger = Context.context.createChannelMerger( 2 );
+		const gainLeft = Context.context.createGain();
+		const gainRight = Context.context.createGain();
+
+		gainLeft.gain.value = this._gainLeft.value;
+		gainRight.gain.value = this._gainRight.value;
+
+		splitter.connect( gainLeft, 0 );
+		splitter.connect( gainRight, 1 );
+
+		gainLeft.connect( merger, 0, 0 );
+		gainRight.connect( merger, 0, 1 );
+
+		this.gainLeftNodes.push({
+			src,
+			effectNode: gainLeft,
+		});
+		this.gainRightNodes.push({
+			src,
+			effectNode: gainRight,
+		});
+		this.nodes.push({
+			src,
+			merger,
+			splitter,
+		});
+
+		src.connect( splitter );
+
+		return merger;
+	}
+
+
+	removeNode( srcNode ) {
+		const i = this.nodes.findIndex( n => n.src === srcNode );
+
+		if ( this.native ) {
+			const { effectNode } = this.nodes[i];
+
+			this.nodes.splice( i, 1 );
+			srcNode.disconnect( effectNode );
+
+			return effectNode;
+		}
+
+		const { merger, splitter } = this.nodes[i];
+
+		this.nodes.splice( i, 1 );
+		this.gainLeftNodes.splice( i, 1 );
+		this.gainRightNodes.splice( i, 1 );
+		srcNode.disconnect( splitter );
+
+		return merger;
 	}
 
 
 	set pan( val ) {
 		this._pan.set( val );
+
+		if ( !this.native ) {
+			const gain = Panner.gainFromPan( val );
+			this._gainLeft.set( gain.left );
+			this._gainRight.set( gain.right );
+		}
 	}
 
 
