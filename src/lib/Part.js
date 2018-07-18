@@ -66,4 +66,10 @@ export default class Part extends EventTarget {
 			layer.timeline = timeline;
 		});
 	}
+
+
+	get timeRemaining() {
+		if ( this.timeline ) return Math.max( 0, this.endTime - this.timeline.currentTime );
+		return undefined;
+	}
 }
