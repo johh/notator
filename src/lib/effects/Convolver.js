@@ -1,9 +1,12 @@
 import Context from '../Context';
-import Effect from '../utils/Effect';
+import Connectable from '../Connectable';
 import fetchAudio from '../utils/fetchAudio';
 
 
-export default class Convolver extends Effect {
+export default class Convolver extends Connectable {
+	instanced = false
+
+
 	constructor({
 		ir = null,
 		normalize = true,
@@ -16,20 +19,26 @@ export default class Convolver extends Effect {
 		this.normalize = normalize;
 
 		fetchAudio( ir ).then( ( audio ) => {
-			this.ir = audio;
-			this.loaded = true;
+			this.effectNode.buffer = audio;
+		});
+
+		Context.onInit( () => {
+			const node = Context.context.createConvolver();
+			node.normalize = this.normalize;
+
+			this.effectNode = node;
 		});
 	}
 
 
-	mount( src ) {
-		if ( !this.isConnected( src ) && this.loaded ) {
-			const node = Context.context.createConvolver();
-			node.buffer = this.ir;
-			node.normalize = this.normalize;
+	createNode( srcNode ) {
+		srcNode.connect( this.effectNode );
+		return this.effectNode;
+	}
 
-			return super.mount( src, node );
-		}
-		return src;
+
+	removeNode( srcNode ) {
+		srcNode.disconnect( this.effectNode );
+		return this.effectNode;
 	}
 }
