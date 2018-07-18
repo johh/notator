@@ -1,5 +1,5 @@
 import Context from '../Context';
-import Effect from './Effect';
+import Effect from '../utils/Effect';
 import fetchAudio from '../utils/fetchAudio';
 
 

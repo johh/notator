@@ -1,5 +1,5 @@
 import Context from '../Context';
-import Effect from './Effect';
+import Effect from '../utils/Effect';
 import ParamProxy from '../utils/ParamProxy';
 
 
@@ -32,17 +32,14 @@ export default class BiquadFilter extends Effect {
 	}
 
 
-	mount( src ) {
-		if ( !this.isConnected( src ) ) {
-			const node = Context.context.createBiquadFilter();
-			node.frequency.value = this._frequency.value;
-			node.Q.value = this._Q.value;
-			node.gain.value = this._gain.value;
-			node.type = this._type;
+	createNode( srcNode ) {
+		const node = Context.context.createBiquadFilter();
+		node.frequency.value = this._frequency.value;
+		node.Q.value = this._Q.value;
+		node.gain.value = this._gain.value;
+		node.type = this._type;
 
-			return super.mount( src, node );
-		}
-		return src;
+		return super.createNode( srcNode, node );
 	}
 
 

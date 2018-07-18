@@ -1,9 +1,13 @@
 import Context from '../Context';
-import Effect from './Effect';
+import Connectable from '../Connectable';
 import ParamProxy from '../utils/ParamProxy';
 
 
-export default class DynamicsCompressor extends Effect {
+export default class DynamicsCompressor extends Connectable {
+	instanced = false
+	nodes = []
+
+
 	constructor({
 		threshold = -24,
 		knee = 30,
@@ -37,11 +41,9 @@ export default class DynamicsCompressor extends Effect {
 			value: release,
 			nodes: this.nodes,
 		});
-	}
 
 
-	mount( src ) {
-		if ( !this.isConnected( src ) ) {
+		Context.onInit( () => {
 			const node = Context.context.createDynamicsCompressor();
 			node.threshold.value = this._threshold.value;
 			node.knee.value = this._knee.value;
@@ -49,9 +51,21 @@ export default class DynamicsCompressor extends Effect {
 			node.attack.value = this._attack.value;
 			node.release.value = this._release.value;
 
-			return super.mount( src, node );
-		}
-		return src;
+			this.effectNode = node;
+			this.nodes.push({ effectNode: node });
+		});
+	}
+
+
+	createNode( srcNode ) {
+		srcNode.connect( this.effectNode );
+		return this.effectNode;
+	}
+
+
+	removeNode( srcNode ) {
+		srcNode.disconnect( this.effectNode );
+		return this.effectNode;
 	}
 
 

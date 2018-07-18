@@ -1,5 +1,5 @@
 import Context from '../Context';
-import Effect from './Effect';
+import Effect from '../utils/Effect';
 import ParamProxy from '../utils/ParamProxy';
 
 
@@ -15,14 +15,11 @@ export default class Gain extends Effect {
 	}
 
 
-	mount( src ) {
-		if ( !this.isConnected( src ) ) {
-			const node = Context.context.createGain();
-			node.gain.value = this._gain.value;
+	createNode( srcNode ) {
+		const node = Context.context.createGain();
+		node.gain.value = this._gain.value;
 
-			return super.mount( src, node );
-		}
-		return src;
+		return super.createNode( srcNode, node );
 	}
 
 

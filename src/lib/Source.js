@@ -1,9 +1,16 @@
 import Context from './Context';
+import Destination from './Destination';
 import Layer from './Layer';
+import Connectable from './Connectable';
 
 
-export default class Source {
+export default class Source extends Connectable {
+	instanced = false
+
+
 	constructor({ buffer, parent, fade = 0 }) {
+		super();
+
 		this.buffer = buffer;
 		this.fade = fade;
 		this.parent = parent;
@@ -19,6 +26,7 @@ export default class Source {
 			this.node = this.src;
 		}
 	}
+
 
 	play( time = 0 ) {
 		const {
@@ -41,33 +49,41 @@ export default class Source {
 	}
 
 
-	walkEffects( mount ) {
-		let lastNode = this.node;
-		const effects = [].concat(
+	walkConnectables( mount ) {
+		let lastConnectable = {
+			node: this.node,
+			connectable: this,
+		};
+
+		const connectables = [].concat(
 			this.parent.effects,
 			( this.parent instanceof Layer ) ? this.parent.part.effects : [],
 			this.parent.timeline.effects,
+			Destination,
 		);
 
-		effects.forEach( ( e ) => {
-			if ( mount ) {
-				lastNode = e.mount( lastNode );
-			} else {
-				lastNode = e.unmount( lastNode );
-			}
-		});
 
-		if ( mount ) lastNode.connect( Context.context.destination );
+		for ( let i = 0; i < connectables.length; i += 1 ) {
+			const c = connectables[i];
+
+			if ( mount ) {
+				lastConnectable = c.mount( lastConnectable );
+			} else {
+				lastConnectable = c.unmount( lastConnectable );
+			}
+
+			if ( lastConnectable === null ) break;
+		}
 	}
 
 
 	mount() {
-		this.walkEffects( true );
+		this.walkConnectables( true );
 	}
 
 
 	unmount() {
-		this.walkEffects( false );
+		this.walkConnectables( false );
 	}
 
 
