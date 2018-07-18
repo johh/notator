@@ -9,12 +9,14 @@ export default class ActionSound extends Playable {
 		smoothEnd = 0,
 		effects = [],
 		quantize = 0,
+		pitch = 1,
 	} = {}) {
 		super();
 
 		this.smoothEnd = smoothEnd;
 		this.effects = effects;
 		this.quantize = quantize;
+		this.pitch = pitch;
 
 		this.load( file );
 	}
@@ -28,9 +30,9 @@ export default class ActionSound extends Playable {
 			} = this.timeline;
 
 			const b = Math.ceil( currentTime / ( barDuration * this.quantize ) );
-			super.play( b * barDuration * this.quantize );
+			super.play( b * barDuration * this.quantize, this.pitch );
 		} else {
-			super.play( 0 );
+			super.play( 0, this.pitch );
 		}
 	}
 

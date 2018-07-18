@@ -40,9 +40,11 @@ export default class Playable extends EventTarget {
 	}
 
 
-	play( time ) {
+	play( time, pitch = 1 ) {
 		if ( this.preparedSource ) {
 			const src = this.preparedSource;
+			src.pitch = pitch;
+
 			this.preparedSource = null;
 
 			src.play( time );

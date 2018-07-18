@@ -8,7 +8,11 @@ export default class Source extends Connectable {
 	instanced = false
 
 
-	constructor({ buffer, parent, fade = 0 }) {
+	constructor({
+		buffer,
+		parent,
+		fade = 0,
+	}) {
 		super();
 
 		this.buffer = buffer;
@@ -25,6 +29,11 @@ export default class Source extends Connectable {
 		} else {
 			this.node = this.src;
 		}
+	}
+
+
+	set pitch( val ) {
+		this.src.playbackRate.value = val;
 	}
 
 
