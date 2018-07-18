@@ -36,8 +36,8 @@ Context.start();
 
 ## Troubleshooting
 #### Audio cuts out entirely for a second once a new sound is played
-This happens because the browsers' audio system is overloaded. Try reducing the amount of sounds being played simultaneously or the number of effects used. Effects far up the chain (e.g. on the Timeline) and complex effects like Convolvers are especially taxing.
-Firefox seems to have a problem with Convolvers in general, so it's  probably best to avoid them for now.
+This happens because the browsers' audio system is overloaded. Try reducing the amount of sounds being played simultaneously or the number of effects used. Complex effects like Convolvers are especially taxing.
+Firefox seems to have a problem with Convolvers in general, so use them with caution for now.
 
 ---
 
