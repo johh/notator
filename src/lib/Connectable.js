@@ -23,7 +23,7 @@ export default class Connectable {
 
 
 	shouldDisconnect() {
-		return !this.instanced;
+		return this.instanced;
 	}
 
 
