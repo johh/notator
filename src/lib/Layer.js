@@ -14,10 +14,12 @@ export default class Layer extends Playable {
 		offset = 0,
 		smoothEnd = .15,
 		loop = false,
+		load = false,
 		effects = [],
 	} = {}) {
 		super();
 
+		this.file = file;
 		this.loop = loop;
 		this.duration = duration;
 		this.padding = padding;
@@ -25,7 +27,7 @@ export default class Layer extends Playable {
 		this.smoothEnd = smoothEnd;
 		this.effects = effects;
 
-		this.load( file );
+		if ( load ) this.load();
 	}
 
 

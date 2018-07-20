@@ -6,17 +6,20 @@ export default class Part extends EventTarget {
 	timeline = null
 	firstPlay = true
 
+
 	constructor({
 		duration = 4,
 		layers = [],
 		effects = [],
 		loop = false,
+		load = true,
 	} = {}) {
 		super();
 
 		this.duration = duration;
 		this.effects = effects;
 		this.loop = loop;
+		this.shouldLoad = load;
 		layers.forEach( layer => this.append( layer ) );
 	}
 
@@ -24,6 +27,7 @@ export default class Part extends EventTarget {
 	append( layer ) {
 		// TODO: check for duplicate
 		// TODO: check if already connected
+		if ( this.shouldLoad ) layer.load();
 		layer.part = this;
 		this.layers.push( layer );
 		this.dispatchEvent( 'append', layer );
@@ -33,6 +37,15 @@ export default class Part extends EventTarget {
 	remove( layer ) {
 		this.layers.splice( this.layers.findIndex( l => l === layer ), 1 );
 		this.dispatchEvent( 'remove', layer );
+	}
+
+
+	load() {
+		const loaders = [];
+
+		this.layers.forEach( l => loaders.push( l.load() ) );
+
+		return Promise.all( loaders );
 	}
 
 

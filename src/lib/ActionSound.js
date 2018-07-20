@@ -10,15 +10,17 @@ export default class ActionSound extends Playable {
 		effects = [],
 		quantize = 0,
 		pitch = 1,
+		load = true,
 	} = {}) {
 		super();
 
+		this.file = file;
 		this.smoothEnd = smoothEnd;
 		this.effects = effects;
 		this.quantize = quantize;
 		this.pitch = pitch;
 
-		this.load( file );
+		if ( load ) this.load();
 	}
 
 
