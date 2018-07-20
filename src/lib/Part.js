@@ -21,13 +21,14 @@ export default class Part extends EventTarget {
 		this.loop = loop;
 		this.shouldLoad = load;
 		layers.forEach( layer => this.append( layer ) );
+
+		if ( this.shouldLoad ) this.load();
 	}
 
 
 	append( layer ) {
 		// TODO: check for duplicate
 		// TODO: check if already connected
-		if ( this.shouldLoad ) layer.load();
 		layer.part = this;
 		this.layers.push( layer );
 		this.dispatchEvent( 'append', layer );
@@ -49,7 +50,7 @@ export default class Part extends EventTarget {
 			this.dispatchEvent( 'loading', loaded / this.layers.length );
 		}) ) );
 
-		return Promise.all( loaders );
+		return Promise.all( loaders ).then( () => this.dispatchEvent( 'load' ) );
 	}
 
 
