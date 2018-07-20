@@ -27,9 +27,7 @@ export default class Part extends EventTarget {
 
 
 	append( layer ) {
-		// TODO: check for duplicate
-		// TODO: check if already connected
-		layer.part = this;
+		layer.setPart( this );
 		this.layers.push( layer );
 		this.dispatchEvent( 'append', layer );
 	}
@@ -80,9 +78,7 @@ export default class Part extends EventTarget {
 
 	setTimeline( timeline ) {
 		this.timeline = timeline;
-		this.layers.forEach( ( layer ) => {
-			layer.timeline = timeline;
-		});
+		this.layers.forEach( layer => layer.setTimeline( timeline ) );
 	}
 
 

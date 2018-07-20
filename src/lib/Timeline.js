@@ -32,12 +32,10 @@ export default class Timeline {
 		if ( part instanceof Part ) {
 			if ( !this.running ) {
 				Context.onInit( () => {
-					this.startTime = Context.context.currentTime + ( 1 / this.tickrate);
+					this.startTime = Context.context.currentTime + ( 1 / this.tickrate );
 					this.running = true;
 				});
 			}
-			// TODO: check for duplicate
-			// TODO: check if already connected
 
 			part.setTimeline( this );
 			this.parts.push( part );

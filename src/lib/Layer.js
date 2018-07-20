@@ -41,8 +41,6 @@ export default class Layer extends Playable {
 
 		time += this.offset * barDuration;
 
-		// console.log( 'start', time / 4, endTime / 4 );
-
 		super.play( time );
 
 		if ( this.loop ) {
@@ -57,11 +55,22 @@ export default class Layer extends Playable {
 
 	tick() {
 		if ( this.loop ) {
-			const { barDuration, currentBarExact } = this.timeline;
+			const { barDuration, currentBarExact, lookahead } = this.timeline;
 
-			if ( this.shouldRescheduleOn && this.shouldRescheduleOn - currentBarExact <= this.timeline.lookahead ) {
+			if ( this.shouldRescheduleOn &&
+				this.shouldRescheduleOn - currentBarExact <= lookahead ) {
 				this.play( ( this.shouldRescheduleOn ) * barDuration );
 			}
 		}
+	}
+
+
+	setTimeline( timeline ) {
+		this.timeline = timeline;
+	}
+
+
+	setPart( part ) {
+		this.part = part;
 	}
 }
