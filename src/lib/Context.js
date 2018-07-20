@@ -15,16 +15,25 @@ class Context {
 
 
 	start() {
-		if ( this.webAudioSupport ) {
-			const context = new ( window.AudioContext || window.webkitAudioContext )();
-			context.resume();
-			context.onstatechange = () => {
-				if ( context.state === 'running' ) {
-					this.context = context;
-					if ( !this.initialized ) this._initChildren();
+		if ( !this.promise ) {
+			this.promise = new Promise( ( resolve, reject ) => {
+				if ( this.webAudioSupport ) {
+					const context = new ( window.AudioContext || window.webkitAudioContext )();
+					context.resume();
+					context.onstatechange = () => {
+						if ( context.state === 'running' ) {
+							this.context = context;
+							if ( !this.initialized ) this._initChildren();
+							resolve();
+						}
+					};
+				} else {
+					reject();
 				}
-			};
+			});
 		}
+
+		return this.promise;
 	}
 
 
