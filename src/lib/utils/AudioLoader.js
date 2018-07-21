@@ -14,12 +14,12 @@ export default class AudioLoader extends EventTarget {
 		return new Promise( ( resolve, reject ) => {
 			if ( this.input instanceof AudioBuffer ) {
 				resolve( this.input );
-				this.done();
+				this.done( this.input );
 			} else if ( this.input instanceof ArrayBuffer ) {
 				Context.onInit( () => {
 					Context.context.decodeAudioData( this.input, ( audio ) => {
 						resolve( audio );
-						this.done();
+						this.done( audio );
 					});
 				});
 			} else {
@@ -32,7 +32,7 @@ export default class AudioLoader extends EventTarget {
 							Context.onInit( () => {
 								Context.context.decodeAudioData( xhr.response, ( audio ) => {
 									resolve( audio );
-									this.done();
+									this.done( audio );
 								});
 							});
 						} else {
@@ -48,7 +48,8 @@ export default class AudioLoader extends EventTarget {
 	}
 
 
-	done() {
+	done( audio ) {
 		this.input = null;
+		this.dispatchEvent( 'load', audio );
 	}
 }
