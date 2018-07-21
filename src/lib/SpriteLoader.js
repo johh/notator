@@ -1,6 +1,6 @@
 import Context from './Context';
 import EventTarget from './EventTarget';
-import fetchAudio from './utils/fetchAudio';
+import AudioLoader from './utils/AudioLoader';
 
 
 export default class SpriteLoader extends EventTarget {
@@ -22,18 +22,11 @@ export default class SpriteLoader extends EventTarget {
 
 
 	load() {
-		if ( this.file ) {
-			fetchAudio( this.file )
-				.then( audio => this.split( audio ) )
-				.catch( e => this.reject( e ) );
-		} else if ( this.buffer ) {
-			Context.onInit( () => {
-				Context.context.decodeAudioData( this.buffer, audio => this.split( audio ) );
-				this.buffer = null;
-			});
-		} else {
-			this.reject( 'No file or buffer specified.' );
-		}
+		const loader = new AudioLoader( this.file || this.buffer );
+		loader.on( 'loading', p => this.dispatchEvent( 'loading', p ) );
+		loader.load()
+			.then( audio => this.split( audio ) )
+			.catch( e => this.reject( e ) );
 
 		return this.promise;
 	}

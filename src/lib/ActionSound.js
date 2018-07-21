@@ -5,8 +5,7 @@ export default class ActionSound extends Playable {
 	loaded = false
 
 	constructor({
-		file = '',
-		buffer,
+		src = '',
 		smoothEnd = 0,
 		effects = [],
 		quantize = 0,
@@ -15,8 +14,7 @@ export default class ActionSound extends Playable {
 	} = {}) {
 		super();
 
-		this.file = file;
-		this.buffer = buffer;
+		this.src = src;
 		this.smoothEnd = smoothEnd;
 		this.effects = effects;
 		this.quantize = quantize;

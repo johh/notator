@@ -1,6 +1,6 @@
 import Source from './Source';
 import EventTarget from './EventTarget';
-import fetchAudio from './utils/fetchAudio';
+import AudioLoader from './utils/AudioLoader';
 
 
 export default class Playable extends EventTarget {
@@ -30,20 +30,15 @@ export default class Playable extends EventTarget {
 	}
 
 
-	load( file = this.file ) {
-		if ( !this.loadPromise && !this.buffer ) {
-			this.loadPromise = fetchAudio( file ).then( ( audio ) => {
+	load( src = this.src ) {
+		if ( !this.loadPromise ) {
+			const loader = new AudioLoader( src );
+
+			this.loadPromise = loader.load().then( ( audio ) => {
 				this.buffer = audio;
 				this.prepare();
 				this.loaded = true;
 				this.dispatchEvent( 'load' );
-			});
-		} else if ( !this.loadPromise ) {
-			this.loadPromise = new Promise( ( resolve ) => {
-				this.prepare();
-				this.loaded = true;
-				this.dispatchEvent( 'load' );
-				resolve();
 			});
 		}
 

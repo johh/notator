@@ -8,8 +8,7 @@ export default class Layer extends Playable {
 
 
 	constructor({
-		file = '',
-		buffer,
+		src = '',
 		duration = 1,
 		padding = 0,
 		offset = 0,
@@ -20,8 +19,7 @@ export default class Layer extends Playable {
 	} = {}) {
 		super();
 
-		this.file = file;
-		this.buffer = buffer;
+		this.src = src;
 		this.loop = loop;
 		this.duration = duration;
 		this.padding = padding;

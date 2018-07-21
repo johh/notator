@@ -1,6 +1,6 @@
 import Context from '../Context';
 import Connectable from '../Connectable';
-import fetchAudio from '../utils/fetchAudio';
+import AudioLoader from '../utils/AudioLoader';
 
 
 export default class Convolver extends Connectable {
@@ -25,15 +25,10 @@ export default class Convolver extends Connectable {
 			this.effectNode = node;
 		});
 
-		if ( ir instanceof AudioBuffer ) {
-			Context.onInit( () => {
-				this.effectNode.buffer = ir;
-			});
-		} else {
-			fetchAudio( ir ).then( ( audio ) => {
-				this.effectNode.buffer = audio;
-			});
-		}
+		const loader = new AudioLoader( ir );
+		loader.load().then( ( audio ) => {
+			this.effectNode.buffer = audio;
+		});
 	}
 
 
