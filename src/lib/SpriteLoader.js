@@ -15,15 +15,21 @@ export default class SpriteLoader extends EventTarget {
 			this.resolve = resolve;
 			this.reject = reject;
 		});
+		this.file = file;
+		this.buffer = buffer;
 		this.parts = sprites;
+	}
 
-		if ( file ) {
-			fetchAudio( file )
+
+	load() {
+		if ( this.file ) {
+			fetchAudio( this.file )
 				.then( audio => this.split( audio ) )
 				.catch( e => this.reject( e ) );
-		} else if ( buffer ) {
+		} else if ( this.buffer ) {
 			Context.onInit( () => {
-				Context.context.decodeAudioData( buffer, audio => this.split( audio ) );
+				Context.context.decodeAudioData( this.buffer, audio => this.split( audio ) );
+				this.buffer = null;
 			});
 		} else {
 			this.reject( 'No file or buffer specified.' );
