@@ -31,12 +31,19 @@ export default class Playable extends EventTarget {
 
 
 	load( file = this.file ) {
-		if ( !this.loadPromise ) {
+		if ( !this.loadPromise && !this.buffer ) {
 			this.loadPromise = fetchAudio( file ).then( ( audio ) => {
 				this.buffer = audio;
 				this.prepare();
 				this.loaded = true;
 				this.dispatchEvent( 'load' );
+			});
+		} else if ( !this.loadPromise ) {
+			this.loadPromise = new Promise( ( resolve ) => {
+				this.prepare();
+				this.loaded = true;
+				this.dispatchEvent( 'load' );
+				resolve();
 			});
 		}
 
