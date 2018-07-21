@@ -41,12 +41,15 @@ export default class Part extends EventTarget {
 
 	load() {
 		const loaders = [];
-		let loaded = 0;
+		const progress = [];
 
-		this.layers.forEach( l => loaders.push( l.load().then( () => {
-			loaded += 1;
-			this.dispatchEvent( 'loading', loaded / this.layers.length );
-		}) ) );
+		this.layers.forEach( ( l, i ) => {
+			l.on( 'loading', ( p ) => {
+				progress[i] = p;
+				this.dispatchEvent( 'loading', progress.reduce( ( a, c ) => a + c ) / progress.length );
+			});
+			loaders.push( l.load() );
+		});
 
 		return Promise.all( loaders ).then( () => this.dispatchEvent( 'load' ) );
 	}

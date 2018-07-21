@@ -50,6 +50,7 @@ export default class AudioLoader extends EventTarget {
 
 	done( audio ) {
 		this.input = null;
+		this.dispatchEvent( 'loading', 1 );
 		this.dispatchEvent( 'load', audio );
 	}
 }

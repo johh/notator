@@ -33,6 +33,7 @@ export default class Playable extends EventTarget {
 	load( src = this.src ) {
 		if ( !this.loadPromise ) {
 			const loader = new AudioLoader( src );
+			loader.on( 'loading', p => this.dispatchEvent( 'loading', p ) );
 
 			this.loadPromise = loader.load().then( ( audio ) => {
 				this.buffer = audio;
