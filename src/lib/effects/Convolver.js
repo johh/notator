@@ -18,16 +18,22 @@ export default class Convolver extends Connectable {
 
 		this.normalize = normalize;
 
-		fetchAudio( ir ).then( ( audio ) => {
-			this.effectNode.buffer = audio;
-		});
-
 		Context.onInit( () => {
 			const node = Context.context.createConvolver();
 			node.normalize = this.normalize;
 
 			this.effectNode = node;
 		});
+
+		if ( ir instanceof AudioBuffer ) {
+			Context.onInit( () => {
+				this.effectNode.buffer = ir;
+			});
+		} else {
+			fetchAudio( ir ).then( ( audio ) => {
+				this.effectNode.buffer = audio;
+			});
+		}
 	}
 
 
