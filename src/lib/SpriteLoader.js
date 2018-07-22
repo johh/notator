@@ -5,8 +5,7 @@ import AudioLoader from './utils/AudioLoader';
 
 export default class SpriteLoader extends EventTarget {
 	constructor({
-		file,
-		buffer,
+		src,
 		sprites,
 	} = {}) {
 		super();
@@ -15,14 +14,13 @@ export default class SpriteLoader extends EventTarget {
 			this.resolve = resolve;
 			this.reject = reject;
 		});
-		this.file = file;
-		this.buffer = buffer;
+		this.src = src;
 		this.parts = sprites;
 	}
 
 
 	load() {
-		const loader = new AudioLoader( this.file || this.buffer );
+		const loader = new AudioLoader( this.src );
 		loader.on( 'loading', p => this.dispatchEvent( 'loading', p * .9 ) );
 		loader.load()
 			.then( audio => this.split( audio ) )
