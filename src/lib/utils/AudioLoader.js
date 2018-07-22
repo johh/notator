@@ -41,7 +41,7 @@ export default class AudioLoader extends EventTarget {
 						}
 					}
 				};
-				xhr.onprogress = e => this.dispatchEvent( 'loading', e.loaded / e.total );
+				xhr.onprogress = e => this.dispatchEvent( 'loading', ( e.loaded / e.total ) * .9 );
 				xhr.send();
 			}
 		});
