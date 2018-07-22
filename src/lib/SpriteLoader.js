@@ -33,28 +33,25 @@ export default class SpriteLoader extends EventTarget {
 
 
 	split( audio ) {
-		const data = [];
 		const sprites = {};
-
-		for ( let channel = 0; channel < audio.numberOfChannels; channel += 1 ) {
-			data.push( audio.getChannelData( channel ) );
-		}
 
 		Object.keys( this.parts ).forEach( ( key ) => {
 			const { start, end } = this.parts[key];
-
 			const buffer = Context.context.createBuffer(
 				audio.numberOfChannels,
 				( end - start ) * audio.sampleRate,
 				audio.sampleRate,
 			);
 
-			data.forEach( ( d, i ) => {
+			for ( let channel = 0; channel < audio.numberOfChannels; channel += 1 ) {
+				const destination = new Float32Array( ( end - start ) * audio.sampleRate );
+
+				audio.copyFromChannel( destination, channel, start * audio.sampleRate );
 				buffer.copyToChannel(
-					d.slice( start * audio.sampleRate, end * audio.sampleRate ),
-					i,
+					destination,
+					channel,
 				);
-			});
+			}
 
 			sprites[key] = buffer;
 		});
