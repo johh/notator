@@ -27,6 +27,7 @@ export default class SpriteLoader extends EventTarget {
 		loader.load()
 			.then( audio => this.split( audio ) )
 			.then( () => this.dispatchEvent( 'loading', 1 ) )
+			.then( () => this.dispatchEvent( 'load' ) )
 			.catch( e => this.reject( e ) );
 
 		return this.promise;
