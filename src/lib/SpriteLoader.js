@@ -36,8 +36,9 @@ export default class SpriteLoader extends EventTarget {
 
 	split( audio ) {
 		const sprites = {};
+		const keys = Object.keys( this.parts );
 
-		Object.keys( this.parts ).forEach( ( key ) => {
+		keys.forEach( ( key, i ) => {
 			const { start, end } = this.parts[key];
 			const buffer = Context.context.createBuffer(
 				audio.numberOfChannels,
@@ -54,6 +55,7 @@ export default class SpriteLoader extends EventTarget {
 					channel,
 				);
 			}
+			this.dispatchEvent( 'loading', .9 + ( .1 * ( ( i + 1 ) / keys.length ) ) );
 
 			sprites[key] = buffer;
 		});
