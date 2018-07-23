@@ -17,21 +17,62 @@ npm i notator --save
 ```
 
 ## Usage
+Basic example:
+
 ```javascript
 import {
-	Context,
-	Timeline,
-	Layer,
-	Part,
-	ActionSound,
-	Gain,
-	Panner,
-	Convolver,
-	BiquadFilter,
-	DynamicsCompressor,
+  Context,
+  Timeline,
+  Layer,
+  Part,
+  ActionSound,
+  Gain,
 } from 'notator';
 
+
 Context.start();
+
+const masterGain = new Gain( .5 );
+
+const timeline = new Timeline({
+  bpm: 65, // beats per minute
+  effects: [
+    masterGain,
+  ],
+});
+
+// master gain can now be controlled:
+masterGain.gain = .9;
+
+
+// BACKGROUND LOOP
+
+const part = new Part({
+  duration: 4, // duration in bars
+  loop: true, // repeat part until next part is played
+  layers: [
+    new Layer({
+      duration: 4, // duration in bars
+      src: 'path/to/drums.mp3',
+    }),
+    new Layer({
+      duration: 4,
+      src: 'path/to/bass.mp3',
+    }),
+  ],
+});
+
+timeline.play( part );
+
+
+// CLICKING SOUND
+
+const click = new ActionSound({
+  src: 'path/to/click.mp3',
+  quantize: 1 / 4, // quantize to next quarter note
+});
+
+window.addEventListener( 'click', () => timeline.play( click ) );
 ```
 
 ## Troubleshooting
