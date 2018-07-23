@@ -4,7 +4,11 @@
 
 ## Browser support
 **notator** is built on top of the Web Audio API, which is still in the working draft stage.
-All *modern* browsers are supported (i.e. not IE).
+All modern browsers are supported.
+
+![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png)
+:---: | :---: | :---: | :---: | :---: | :---: |
+33+ ✅ | 29+ ✅ | 20+ ✅ | 7.1+ ✅ | 12+ ✅ | ❌ |
 
 [Web Audio API browser support](https://caniuse.com/#feat=audio-api)
 
