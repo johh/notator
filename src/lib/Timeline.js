@@ -12,12 +12,12 @@ export default class Timeline {
 
 	constructor({
 		bpm = 60,
-		bpb = 4,
+		mesure = 4 / 4,
 		tickrate = 8,
 		lookahead = .5,
 		effects = [],
 	} = {}) {
-		this.barDuration = 60 / ( bpm / bpb );
+		this.barDuration = 60 / ( bpm / ( mesure * 4 ) );
 		this.lookahead = lookahead;
 		this.tickrate = tickrate;
 		this.effects = effects;
