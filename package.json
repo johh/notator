@@ -23,7 +23,7 @@
   ],
   "author": "JohH <code@johh.net>",
   "license": "BSD-4-Clause",
-  "private": true,
+  "private": false,
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
