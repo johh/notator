@@ -1,6 +1,6 @@
 {
   "name": "notator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Web Audio engine for interactive soundtracks",
   "main": "dist/index.js",
   "homepage": "http://notator.io",
