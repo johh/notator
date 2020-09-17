@@ -5,7 +5,7 @@ type F = ( ctx: AudioContext ) => void;
 
 
 export default class Context {
-	public isSafari = !AudioContext && !!webkitAudioContext;
+	public isSafari = typeof AudioContext === 'undefined' && !!webkitAudioContext;
 	public context: AudioContext;
 	private readyQueue: F[] = [];
 	private started: Promise<AudioContext>;
@@ -16,7 +16,7 @@ export default class Context {
 		if ( !this.started ) {
 			this.started = new Promise( ( resolve, reject ) => {
 				try {
-					this.context = new ( AudioContext || webkitAudioContext )();
+					this.context = new ( this.isSafari ? webkitAudioContext : AudioContext )();
 					this.context.onstatechange = (): void => {
 						if ( this.context.state === 'running' ) {
 							this.readyQueue.forEach( f => f( this.context ) );
