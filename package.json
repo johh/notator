@@ -1,48 +1,52 @@
 {
-  "name": "notator",
-  "version": "0.1.0",
-  "description": "Web Audio engine for interactive soundtracks",
-  "main": "dist/index.js",
-  "homepage": "http://notator.io",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/johh/notator.git"
-  },
-  "scripts": {
-    "build": "npm run clean:build && cross-env BABEL_ENV=production rollup -c",
-    "dev": "npm run clean:build && babel src --out-dir dist --watch --source-maps",
-    "clean:test": "rimraf test/_tmp",
-    "clean:build": "rimraf dist"
-  },
-  "keywords": [
-    "web",
-    "audio",
-    "soundtrack",
-    "layer",
-    "effect"
-  ],
-  "author": "JohH <code@johh.net>",
-  "license": "BSD-4-Clause",
-  "private": false,
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.5",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "cross-env": "^5.2.0",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.62.0",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-uglify": "^4.0.0"
-  }
+	"name": "notator",
+	"version": "0.0.0",
+	"description": "reactive soundtracks for the web",
+	"main": "dist/cjs/notator.js",
+	"module": "dist/esm/notator.js",
+	"repository": "https://github.com/johh/notator.git",
+	"author": "johh <code@johh.net>",
+	"license": "BSD-4-Clause",
+	"private": false,
+	"keywords": [],
+	"scripts": {
+		"build": "rollup -c",
+		"declaration": "tsc --emitDeclarationOnly",
+		"type-check": "tsc --noEmit",
+		"dev": "rollup -c -w",
+		"lint": "eslint --ext .ts,.tsx,.js src/"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.10.5",
+		"@babel/core": "^7.10.5",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"@babel/plugin-proposal-object-rest-spread": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"@babel/preset-typescript": "^7.10.4",
+		"@types/gl-matrix": "^2.4.5",
+		"@typescript-eslint/eslint-plugin": "^2",
+		"@typescript-eslint/parser": "^2",
+		"babel-eslint": "^10.0.2",
+		"eslint": "^6",
+		"eslint-config-airbnb-typescript": "^7",
+		"eslint-plugin-import": "^2.21.1",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-react": "^7.20.0",
+		"eslint-plugin-react-hooks": "^2.5.0",
+		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
+		"rollup": "^2.22.2",
+		"rollup-plugin-typescript2": "^0.27.1",
+		"tslib": "^2.0.0",
+		"typescript": "^3.9.7"
+	},
+	"dependencies": {},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js}": "eslint --max-warnings 1"
+	}
 }

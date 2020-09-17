@@ -1,0 +1,47 @@
+declare const webkitAudioContext: typeof AudioContext;
+
+
+type F = ( ctx: AudioContext ) => void;
+
+
+export default class Context {
+	public isSafari = !AudioContext && !!webkitAudioContext;
+	public context: AudioContext;
+	private readyQueue: F[] = [];
+	private started: Promise<AudioContext>;
+	public initialized = false;
+
+
+	public start(): Promise<AudioContext> {
+		if ( !this.started ) {
+			this.started = new Promise( ( resolve, reject ) => {
+				try {
+					this.context = new ( AudioContext || webkitAudioContext )();
+					this.context.onstatechange = (): void => {
+						if ( this.context.state === 'running' ) {
+							this.readyQueue.forEach( f => f( this.context ) );
+							this.readyQueue = [];
+							resolve( this.context );
+							this.initialized = true;
+						}
+					};
+
+					this.context.resume();
+				} catch {
+					reject();
+				}
+			});
+		}
+
+		return this.started;
+	}
+
+
+	public ready( func: F ): void {
+		if ( this.context ) {
+			func( this.context );
+		} else {
+			this.readyQueue.push( func );
+		}
+	}
+}
