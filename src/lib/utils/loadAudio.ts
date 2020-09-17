@@ -18,9 +18,11 @@ export default function loadAudio(
 				response => response.arrayBuffer(),
 			).then( ( buffer ) => {
 				defaultContext.ready( ( ctx ) => {
-					ctx.decodeAudioData( buffer ).then(
-						( audio ) => resolve( audio ),
-					).catch(
+					// safari does not support the promise based version,
+					// use callbacks instead
+					ctx.decodeAudioData(
+						buffer,
+						audio => resolve( audio ),
 						() => {
 							// eslint-disable-next-line no-console
 							console.error( `Error decoding file ${input}` );
