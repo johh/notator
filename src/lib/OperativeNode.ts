@@ -4,6 +4,9 @@ import defaultContext from './defaultContext';
 
 export default abstract class OperativeNode extends Node {
 	public node: AudioNode;
+
+	// since all children are connected to a single AudioNode,
+	// they won't be affected by upstream changes.
 	protected autoInvalidateChildren = false;
 
 

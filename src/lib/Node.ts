@@ -27,7 +27,7 @@ export default class Node {
 
 	protected addParent( parent: Node ): void {
 		if ( !this.parents.includes( parent ) ) {
-			this.invalidateChildren( () => {
+			this.invalidateConnections( () => {
 				this.parents.push( parent );
 			});
 		}
@@ -36,14 +36,14 @@ export default class Node {
 
 	protected removeParent( parent: Node ): void {
 		if ( this.parents.includes( parent ) ) {
-			this.invalidateChildren( () => {
+			this.invalidateConnections( () => {
 				this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
 			});
 		}
 	}
 
 
-	protected invalidateChildren( intermediateStep?: () => void ): void {
+	protected invalidateConnections( intermediateStep?: () => void ): void {
 		// not very elegant. this should only rebuild connections
 		if ( this.children.length > 0 ) {
 			const children = Array.from( this.children );
@@ -51,7 +51,9 @@ export default class Node {
 			if ( intermediateStep ) intermediateStep();
 			this.connect( ...children );
 
-			if ( this.autoInvalidateChildren ) children.forEach( c => c.invalidateChildren() );
+			// if upstream changes may affect the connections of children,
+			// they need to be invalidated aswell.
+			if ( this.autoInvalidateChildren ) children.forEach( c => c.invalidateConnections() );
 		}
 	}
 
