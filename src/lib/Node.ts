@@ -2,6 +2,7 @@
 export default class Node {
 	public parents: Node[] = [];
 	public children: Node[] = [];
+	protected autoInvalidateChildren = true;
 
 
 	public connect( ...children: Node[]): void {
@@ -26,14 +27,31 @@ export default class Node {
 
 	protected addParent( parent: Node ): void {
 		if ( !this.parents.includes( parent ) ) {
-			this.parents.push( parent );
+			this.invalidateChildren( () => {
+				this.parents.push( parent );
+			});
 		}
 	}
 
 
 	protected removeParent( parent: Node ): void {
 		if ( this.parents.includes( parent ) ) {
-			this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
+			this.invalidateChildren( () => {
+				this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
+			});
+		}
+	}
+
+
+	protected invalidateChildren( intermediateStep?: () => void ): void {
+		// not very elegant. this should only rebuild connections
+		if ( this.children.length > 0 ) {
+			const children = Array.from( this.children );
+			this.disconnect( ...children );
+			if ( intermediateStep ) intermediateStep();
+			this.connect( ...children );
+
+			if ( this.autoInvalidateChildren ) children.forEach( c => c.invalidateChildren() );
 		}
 	}
 

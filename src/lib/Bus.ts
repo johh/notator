@@ -16,6 +16,8 @@ export default class Bus extends Node {
 		super();
 		this.effects = effects;
 
+		if ( effects.length > 0 ) this.autoInvalidateChildren = false;
+
 		for ( let i = 0; i < effects.length - 1; i += 1 ) {
 			effects[i].connect( effects[i + 1]);
 		}

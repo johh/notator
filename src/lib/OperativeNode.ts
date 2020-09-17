@@ -4,6 +4,7 @@ import defaultContext from './defaultContext';
 
 export default abstract class OperativeNode extends Node {
 	public node: AudioNode;
+	protected autoInvalidateChildren = false;
 
 
 	public addParent( parent: Node ): void {
