@@ -23,19 +23,27 @@ export default class Bus extends Node {
 		}
 	}
 
+
 	public addParent( parent: Node ): void {
 		super.addParent( parent );
-		parent.connect( this.effects[0]);
+		if ( this.effects.length > 0 ) {
+			parent.connect( this.effects[0]);
+		}
 	}
 
 
 	public removeParent( parent: Node ): void {
-		parent.disconnect( this.effects[0]);
+		if ( this.effects.length > 0 ) {
+			parent.disconnect( this.effects[0]);
+		}
 		super.removeParent( parent );
 	}
 
 
 	public getOutputAudioNodes(): AudioNode[] {
-		return this.effects[this.effects.length - 1].getOutputAudioNodes();
+		if ( this.effects.length > 0 ) {
+			return this.effects[this.effects.length - 1].getOutputAudioNodes();
+		}
+		return super.getOutputAudioNodes();
 	}
 }
