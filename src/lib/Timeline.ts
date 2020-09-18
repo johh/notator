@@ -82,28 +82,6 @@ export default class Timeline {
 	}
 
 
-	public getPosition(): number {
-		return ( this.context.getTime() - this.startTime ) / this.barDuration;
-	}
-
-
-	public getTimeAtPosition( position: number ): number {
-		return this.startTime + ( position * this.barDuration );
-	}
-
-
-	public getTimeUntilPosition( position: number ): number {
-		return this.getTimeAtPosition( position ) - this.context.getTime();
-	}
-
-
-	public getTimeoutForPosition( position: number ): number {
-		return Math.max(
-			0,
-			( this.getTimeUntilPosition( position ) - this.barDuration * this.lookahead ) * 1000,
-		);
-	}
-
 	public getTimeoutForTime( time: number ): number {
 		return Math.max(
 			0,

@@ -5,10 +5,10 @@ type F = ( ctx: AudioContext ) => void;
 
 
 export default class Context {
-	public isSafari = typeof AudioContext === 'undefined' && !!webkitAudioContext;
-	public context: AudioContext;
 	private readyQueue: F[] = [];
 	private started: Promise<AudioContext>;
+	public isSafari = typeof AudioContext === 'undefined' && !!webkitAudioContext;
+	public context: AudioContext;
 	public initialized = false;
 
 

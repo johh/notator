@@ -1,5 +1,4 @@
-
-export default class Node {
+export default abstract class Node {
 	public parents: Node[] = [];
 	public children: Node[] = [];
 	protected autoInvalidateChildren = true;

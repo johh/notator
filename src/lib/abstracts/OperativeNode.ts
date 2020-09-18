@@ -1,6 +1,7 @@
 import type Context from '../Context';
-import defaultContext from '../defaults/defaultContext';
 import Node from './Node';
+import defaultContext from '../defaults/defaultContext';
+
 
 export interface OperativeNodeProps {
 	context?: Context;
