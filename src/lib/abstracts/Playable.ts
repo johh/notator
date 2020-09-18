@@ -32,9 +32,13 @@ export default abstract class Playable extends Container {
 
 
 	public load(): Promise<void> {
-		return loadAudio( this.src, this.context || defaultContext ).then( buffer => {
-			this.buffer = buffer;
-		});
+		if ( !this.buffer ) {
+			return loadAudio( this.src, this.context || defaultContext ).then( buffer => {
+				this.buffer = buffer;
+			});
+		}
+
+		return Promise.resolve();
 	}
 
 
