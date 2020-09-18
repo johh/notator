@@ -54,7 +54,7 @@ export default class Source extends OperativeNode {
 			});
 		}
 
-		return new Promise( ( r ) => r() );
+		return Promise.resolve();
 	}
 
 

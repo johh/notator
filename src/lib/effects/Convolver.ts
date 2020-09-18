@@ -1,7 +1,7 @@
+import type { OperativeNodeProps } from '../abstracts/OperativeNode';
+import type { Src } from '../Source';
 import EffectNode from './EffectNode';
-import { Src } from '../Source';
 import loadAudio from '../utils/loadAudio';
-import { OperativeNodeProps } from '../abstracts/OperativeNode';
 
 
 interface ConvolverProps extends OperativeNodeProps {

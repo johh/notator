@@ -6,7 +6,6 @@ interface BusProps {
 	effects?: Effect[];
 }
 
-
 export default class Bus extends Node {
 	private readonly effects: Effect[];
 

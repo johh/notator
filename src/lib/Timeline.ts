@@ -2,7 +2,7 @@ import type Part from './Part';
 import type Destination from './Destination';
 import type Context from './Context';
 import type ActionSound from './ActionSound';
-import { Effect } from './effects/Effect';
+import type { Effect } from './effects/Effect';
 import Bus from './Bus';
 import defaultContext from './defaults/defaultContext';
 import defaultDestination from './defaults/defaultDestination';

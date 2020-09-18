@@ -1,20 +1,12 @@
+import type Context from '../Context';
 import BiquadFilter, { BiquadFilterProps } from './BiquadFilter';
 import Delay, { DelayProps } from './Delay';
 import DynamicsCompressor, { DynamicsCompressorProps } from './DynamicsCompressor';
 import Gain, { GainProps } from './Gain';
 import defaultContext from '../defaults/defaultContext';
-import type Context from '../Context';
 
 
 type ControllableNode = BiquadFilter | Delay | DynamicsCompressor | Gain;
-
-
-interface EffectControllerProps<T>{
-	effects: T[];
-	smoothing?: number;
-	context?: Context;
-}
-
 
 interface EffectControllerType {
 	new ( props: EffectControllerProps<Gain> ): AccessorProps<Gain, GainProps>;
@@ -37,6 +29,12 @@ interface AccessorProps<T, P> {
 	disconnect: ( ...nodes: T[]) => void;
 }
 
+
+interface EffectControllerProps<T>{
+	effects: T[];
+	smoothing?: number;
+	context?: Context;
+}
 
 const EffectController: EffectControllerType = class EffectController {
 	private smoothing: number;

@@ -1,4 +1,4 @@
-import { OperativeNodeProps } from '../abstracts/OperativeNode';
+import type { OperativeNodeProps } from '../abstracts/OperativeNode';
 import EffectNode from './EffectNode';
 
 
