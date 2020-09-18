@@ -2,6 +2,7 @@ export default abstract class Node {
 	public parents: Node[] = [];
 	public children: Node[] = [];
 	protected autoInvalidateChildren = true;
+	private invalidationTimeout: number;
 
 
 	public connect( ...children: Node[]): void {
@@ -27,7 +28,11 @@ export default abstract class Node {
 	protected addParent( parent: Node ): void {
 		if ( !this.parents.includes( parent ) ) {
 			this.parents.push( parent );
-			this.invalidateConnections();
+			clearTimeout( this.invalidationTimeout );
+			this.invalidationTimeout = setTimeout(
+				() => this.invalidateConnections(),
+				0,
+			);
 		}
 	}
 
@@ -35,7 +40,11 @@ export default abstract class Node {
 	protected removeParent( parent: Node ): void {
 		if ( this.parents.includes( parent ) ) {
 			this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
-			this.invalidateConnections();
+			clearTimeout( this.invalidationTimeout );
+			this.invalidationTimeout = setTimeout(
+				() => this.invalidateConnections(),
+				0,
+			);
 		}
 	}
 
