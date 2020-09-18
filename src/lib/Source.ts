@@ -6,6 +6,7 @@ export type Src = AudioBuffer | ArrayBuffer | string;
 
 interface SourceProps extends OperativeNodeProps {
 	src?: Src;
+	gain?: number;
 	autoDestroy?: boolean;
 	onAutoDestroy?: () => void;
 }
@@ -14,12 +15,14 @@ export default class Source extends OperativeNode {
 	private src: Src;
 	private loaded = false;
 	private hasExternalBuffer = false;
+	private gain: number;
 	public sourceNode: AudioBufferSourceNode;
 	public node: GainNode;
 
 
 	constructor({
 		src,
+		gain = 1,
 		onAutoDestroy,
 		autoDestroy = true,
 		...rest
@@ -27,6 +30,7 @@ export default class Source extends OperativeNode {
 		super( rest );
 
 		this.src = src;
+		this.gain = gain;
 		this.context.ready( ( ctx ) => {
 			this.node = ctx.createGain();
 			this.node.gain.value = 0;
@@ -67,7 +71,7 @@ export default class Source extends OperativeNode {
 
 	public play( time = 0 ): void {
 		this.sourceNode.start( time );
-		this.node.gain.setTargetAtTime( 1, time, .02 );
+		this.node.gain.setTargetAtTime( this.gain, time, .02 );
 	}
 
 

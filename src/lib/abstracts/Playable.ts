@@ -8,11 +8,13 @@ import defaultContext from '../defaults/defaultContext';
 
 export interface PlayableProps extends ContainerProps {
 	src: Src;
+	gain?: number;
 	load?: boolean;
 }
 
 export default abstract class Playable extends Container {
-	private autoLoad: boolean;
+	private readonly autoLoad: boolean;
+	private readonly gain: number;
 	protected sources: Source[] = [];
 	protected buffer: AudioBuffer;
 	protected context: Context;
@@ -21,12 +23,14 @@ export default abstract class Playable extends Container {
 
 	constructor({
 		src,
+		gain,
 		load = true,
 		...rest
 	}: PlayableProps ) {
 		super( rest );
 
 		this.src = src;
+		this.gain = gain;
 		this.autoLoad = load;
 	}
 
@@ -45,6 +49,7 @@ export default abstract class Playable extends Container {
 	protected createSource(): Source {
 		const source = new Source({
 			context: this.context,
+			gain: this.gain,
 			onAutoDestroy: (): void => {
 				source.disconnect( this.bus );
 				this.sources.splice( this.sources.findIndex( s => s === source ), 1 );
