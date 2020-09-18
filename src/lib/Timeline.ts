@@ -1,6 +1,7 @@
 import type Part from './Part';
 import type Destination from './Destination';
 import type Context from './Context';
+import type ActionSound from './ActionSound';
 import { Effect } from './effects/Effect';
 import Bus from './Bus';
 import defaultContext from './defaults/defaultContext';
@@ -43,6 +44,12 @@ export default class Timeline {
 		});
 
 		this.bus.connect( destination );
+	}
+
+
+	public play( sound: ActionSound ): void {
+		sound.bindTimeline( this );
+		sound.play();
 	}
 
 
