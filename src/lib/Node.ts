@@ -27,39 +27,37 @@ export default class Node {
 
 	protected addParent( parent: Node ): void {
 		if ( !this.parents.includes( parent ) ) {
-			this.invalidateConnections( () => {
-				this.parents.push( parent );
-			});
+			this.parents.push( parent );
+			this.invalidateConnections();
 		}
 	}
 
 
 	protected removeParent( parent: Node ): void {
 		if ( this.parents.includes( parent ) ) {
-			this.invalidateConnections( () => {
-				this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
-			});
+			this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
+			this.invalidateConnections();
 		}
 	}
 
 
-	protected invalidateConnections( intermediateStep?: () => void ): void {
-		// not very elegant. this should only rebuild connections
-		if ( this.children.length > 0 ) {
-			const children = Array.from( this.children );
-			this.disconnect( ...children );
-			if ( intermediateStep ) intermediateStep();
-			this.connect( ...children );
-
+	protected invalidateConnections(): void {
+		if ( this.autoInvalidateChildren && this.children.length > 0 ) {
 			// if upstream changes may affect the connections of children,
 			// they need to be invalidated aswell.
-			if ( this.autoInvalidateChildren ) children.forEach( c => c.invalidateConnections() );
+			this.children.forEach( c => c.invalidateConnections() );
 		}
 	}
 
 
 	public getOutputAudioNodes(): AudioNode[] {
 		return this.parents.map( c => c.getOutputAudioNodes() ).flat();
+	}
+
+
+	public destroy(): void {
+		this.disconnect( ...this.children );
+		this.parents.forEach( p => p.disconnect( this ) );
 	}
 }
 
