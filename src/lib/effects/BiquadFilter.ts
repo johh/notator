@@ -1,7 +1,8 @@
+import { OperativeNodeProps } from '../abstracts/OperativeNode';
 import EffectNode from './EffectNode';
 
 
-export interface BiquadFilterProps {
+export interface BiquadFilterProps extends OperativeNodeProps {
 	frequency?: number;
 	detune?: number;
 	Q?: number;
@@ -19,6 +20,7 @@ export default class BiquadFilter extends EffectNode<BiquadFilterNode> {
 		detune = 0,
 		Q = 1,
 		gain = 1,
+		...rest
 	}: StaticBiquadFilterProps = {}) {
 		super( ( ctx ) => {
 			const node = ctx.createBiquadFilter();
@@ -28,6 +30,6 @@ export default class BiquadFilter extends EffectNode<BiquadFilterNode> {
 			node.Q.value = Q;
 			node.gain.value = gain;
 			return node;
-		});
+		}, rest );
 	}
 }

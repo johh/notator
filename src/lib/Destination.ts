@@ -1,12 +1,11 @@
-import defaultContext from './defaultContext';
-import OperativeNode from './OperativeNode';
+import OperativeNode, { OperativeNodeProps } from './abstracts/OperativeNode';
 
 
 export default class Destination extends OperativeNode {
-	constructor() {
-		super();
+	constructor( props: OperativeNodeProps ) {
+		super( props );
 
-		defaultContext.ready( ctx => {
+		this.context.ready( ctx => {
 			this.node = ctx.destination;
 		});
 	}

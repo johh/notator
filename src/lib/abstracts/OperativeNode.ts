@@ -1,13 +1,28 @@
+import type Context from '../Context';
+import defaultContext from '../defaults/defaultContext';
 import Node from './Node';
 
+export interface OperativeNodeProps {
+	context?: Context;
+}
 
 export default abstract class OperativeNode extends Node {
-	public node: AudioNode;
 	private upstreamNodes: AudioNode[] = [];
+	protected context: Context;
+	public node: AudioNode;
 
 	// since all children are connected to a single AudioNode,
 	// they won't be affected by upstream changes.
 	protected autoInvalidateChildren = false;
+
+
+	constructor({
+		context = defaultContext,
+	}: OperativeNodeProps = {}) {
+		super();
+
+		this.context = context;
+	}
 
 
 	protected rebuildUpstreamConnections(): void {

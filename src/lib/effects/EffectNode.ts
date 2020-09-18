@@ -1,15 +1,14 @@
-import OperativeNode from '../OperativeNode';
-import defaultContext from '../defaultContext';
+import OperativeNode, { OperativeNodeProps } from '../abstracts/OperativeNode';
 
 
 export default abstract class EffectNode<T extends AudioNode> extends OperativeNode {
 	public node: T;
 
 
-	constructor( factory: ( ctx: AudioContext ) => T ) {
-		super();
+	constructor( factory: ( ctx: AudioContext ) => T, props: OperativeNodeProps ) {
+		super( props );
 
-		defaultContext.ready( ( ctx ) => {
+		this.context.ready( ( ctx ) => {
 			this.node = factory( ctx );
 		});
 	}

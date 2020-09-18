@@ -1,11 +1,10 @@
-import OperativeNode from './OperativeNode';
-import defaultContext from './defaultContext';
+import OperativeNode, { OperativeNodeProps } from './abstracts/OperativeNode';
 import loadAudio from './utils/loadAudio';
 
 
 export type Src = AudioBuffer | ArrayBuffer | string;
 
-interface SourceProps {
+interface SourceProps extends OperativeNodeProps {
 	src: Src;
 }
 
@@ -18,9 +17,11 @@ export default class Source extends OperativeNode {
 		src,
 	}: SourceProps ) {
 		super();
+		...rest
+		super( rest );
 
 		this.src = src;
-		defaultContext.ready( ( ctx ) => {
+		this.context.ready( ( ctx ) => {
 			this.node = ctx.createBufferSource();
 		});
 	}
@@ -30,8 +31,8 @@ export default class Source extends OperativeNode {
 		if ( !this.loaded ) {
 			this.loaded = true;
 			return loadAudio( this.src ).then( ( audio ) => {
-				defaultContext.ready( () => {
-					this.node.buffer = audio;
+				this.context.ready( () => {
+					this.sourceNode.buffer = audio;
 				});
 			});
 		}

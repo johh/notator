@@ -1,15 +1,17 @@
-import defaultContext from '../defaultContext';
+import type Context from '../Context';
 
 
 export default function loadAudio(
 	input: AudioBuffer | ArrayBuffer | string,
+	context: Context,
 ): Promise<AudioBuffer> {
+	console.log( context );
 	return new Promise( ( resolve, reject ) => {
 		if ( input instanceof AudioBuffer ) {
 			resolve( input );
 		} else if ( input instanceof ArrayBuffer ) {
-			defaultContext.ready( () => {
-				defaultContext.context.decodeAudioData( input, ( audio ) => {
+			context.ready( () => {
+				context.context.decodeAudioData( input, ( audio ) => {
 					resolve( audio );
 				});
 			});
@@ -17,7 +19,7 @@ export default function loadAudio(
 			fetch( input ).then(
 				response => response.arrayBuffer(),
 			).then( ( buffer ) => {
-				defaultContext.ready( ( ctx ) => {
+				context.ready( ( ctx ) => {
 					// safari does not support the promise based version,
 					// use callbacks instead
 					ctx.decodeAudioData(

@@ -1,4 +1,4 @@
-import Context from './Context';
+import Context from '../Context';
 
 const defaultContext = new Context();
 

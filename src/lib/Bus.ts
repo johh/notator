@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node from './abstracts/Node';
 import { Effect } from './effects/Effect';
 
 
@@ -8,7 +8,7 @@ interface BusProps {
 
 
 export default class Bus extends Node {
-	effects: Effect[];
+	private readonly effects: Effect[];
 
 	constructor({
 		effects = [],

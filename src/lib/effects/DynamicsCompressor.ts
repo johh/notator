@@ -1,7 +1,8 @@
+import { OperativeNodeProps } from '../abstracts/OperativeNode';
 import EffectNode from './EffectNode';
 
 
-export interface DynamicsCompressorProps {
+export interface DynamicsCompressorProps extends OperativeNodeProps{
 	threshold?: number;
 	knee?: number;
 	ratio?: number;
@@ -16,6 +17,7 @@ export default class DynamicsCompressor extends EffectNode<DynamicsCompressorNod
 		ratio = 12,
 		attack = .003,
 		release = .25,
+		...rest
 	}: DynamicsCompressorProps = {}) {
 		super( ( ctx ) => {
 			const node = ctx.createDynamicsCompressor();
@@ -25,6 +27,6 @@ export default class DynamicsCompressor extends EffectNode<DynamicsCompressorNod
 			node.attack.value = attack;
 			node.release.value = release;
 			return node;
-		});
+		}, rest );
 	}
 }

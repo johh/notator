@@ -1,4 +1,5 @@
-export { default as Context } from './lib/defaultContext';
+export { default as defaultContext } from './lib/defaults/defaultContext';
+export { default as Context } from './lib/Context';
 export { default as Source } from './lib/Source';
 export { default as Destination } from './lib/Destination';
 export { default as Bus } from './lib/Bus';
