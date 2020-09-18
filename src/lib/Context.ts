@@ -44,4 +44,13 @@ export default class Context {
 			this.readyQueue.push( func );
 		}
 	}
+
+
+	public getTime(): number {
+		if ( this.context ) {
+			return this.context.currentTime;
+		}
+
+		return 0;
+	}
 }

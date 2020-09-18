@@ -1,8 +1,12 @@
 export { default as defaultContext } from './lib/defaults/defaultContext';
+export { default as defaultDestination } from './lib/defaults/defaultDestination';
 export { default as Context } from './lib/Context';
 export { default as Source } from './lib/Source';
 export { default as Destination } from './lib/Destination';
 export { default as Bus } from './lib/Bus';
+export { default as Timeline } from './lib/Timeline';
+export { default as Track } from './lib/Track';
+export { default as Part } from './lib/Part';
 
 export { default as BiquadFilter } from './lib/effects/BiquadFilter';
 export { default as Convolver } from './lib/effects/Convolver';
