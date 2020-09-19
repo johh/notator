@@ -12,7 +12,6 @@ export default abstract class Container {
 	protected timeline: Timeline;
 	public readonly bus: Bus;
 
-
 	constructor({
 		effects = [],
 	}: ContainerProps ) {

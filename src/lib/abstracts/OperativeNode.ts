@@ -16,7 +16,6 @@ export default abstract class OperativeNode extends Node {
 	// they won't be affected by upstream changes.
 	protected autoInvalidateChildren = false;
 
-
 	constructor({
 		context = defaultContext,
 	}: OperativeNodeProps = {}) {
@@ -26,7 +25,7 @@ export default abstract class OperativeNode extends Node {
 	}
 
 
-	protected rebuildUpstreamConnections(): void {
+	private rebuildUpstreamConnections(): void {
 		const currentNodes = this.parents.map( p => p.getOutputAudioNodes() ).flat();
 
 		const disconnectedNodes = this.upstreamNodes.filter( n => !currentNodes.includes( n ) );

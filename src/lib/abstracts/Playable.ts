@@ -15,11 +15,10 @@ export interface PlayableProps extends ContainerProps {
 export default abstract class Playable extends Container {
 	private readonly autoLoad: boolean;
 	private readonly gain: number;
-	protected sources: Source[] = [];
+	private sources: Source[] = [];
 	protected buffer: AudioBuffer;
 	protected context: Context;
 	public readonly src: Src;
-
 
 	constructor({
 		src,

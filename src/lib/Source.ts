@@ -16,9 +16,8 @@ export default class Source extends OperativeNode {
 	private loaded = false;
 	private hasExternalBuffer = false;
 	private gain: number;
-	public sourceNode: AudioBufferSourceNode;
+	private sourceNode: AudioBufferSourceNode;
 	public node: GainNode;
-
 
 	constructor({
 		src,

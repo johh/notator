@@ -1,8 +1,8 @@
 export default abstract class Node {
+	private invalidationTimeout: number;
+	protected autoInvalidateChildren = true;
 	public parents: Node[] = [];
 	public children: Node[] = [];
-	protected autoInvalidateChildren = true;
-	private invalidationTimeout: number;
 
 
 	public connect( ...children: Node[]): void {
