@@ -25,8 +25,8 @@ interface EffectControllerType {
 
 interface AccessorProps<T, P> {
 	set: ( key: keyof OmitThisParameter<Omit<P, 'context'>>, value: number ) => void;
-	connect: ( ...nodes: T[]) => void;
-	disconnect: ( ...nodes: T[]) => void;
+	add: ( ...nodes: T[]) => void;
+	remove: ( ...nodes: T[]) => void;
 }
 
 
@@ -65,7 +65,7 @@ const EffectController: EffectControllerType = class EffectController {
 	}
 
 
-	public connect( ...nodes: ControllableNode[]): void {
+	public add( ...nodes: ControllableNode[]): void {
 		nodes.forEach( ( node ) => {
 			if ( !this.effects.includes( node ) ) {
 				this.effects.push( node );
@@ -74,7 +74,7 @@ const EffectController: EffectControllerType = class EffectController {
 	}
 
 
-	public disconnect( ...nodes: ControllableNode[]): void {
+	public remove( ...nodes: ControllableNode[]): void {
 		nodes.forEach( node => {
 			if ( this.effects.includes( node ) ) {
 				this.effects.splice( this.effects.findIndex( n => n === node ), 1 );
