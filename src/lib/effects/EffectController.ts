@@ -24,7 +24,7 @@ interface EffectControllerType {
 }
 
 interface AccessorProps<T, P> {
-	set: ( key: keyof P, value: number ) => void;
+	set: ( key: keyof OmitThisParameter<Omit<P, 'context'>>, value: number ) => void;
 	connect: ( ...nodes: T[]) => void;
 	disconnect: ( ...nodes: T[]) => void;
 }
