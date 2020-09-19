@@ -28,8 +28,8 @@ export default abstract class Node {
 	protected addParent( parent: Node ): void {
 		if ( !this.parents.includes( parent ) ) {
 			this.parents.push( parent );
-			clearTimeout( this.invalidationTimeout );
-			this.invalidationTimeout = setTimeout(
+			window.clearTimeout( this.invalidationTimeout );
+			this.invalidationTimeout = window.setTimeout(
 				() => this.invalidateConnections(),
 				0,
 			);
@@ -40,8 +40,8 @@ export default abstract class Node {
 	protected removeParent( parent: Node ): void {
 		if ( this.parents.includes( parent ) ) {
 			this.parents.splice( this.parents.findIndex( p => p === parent ), 1 );
-			clearTimeout( this.invalidationTimeout );
-			this.invalidationTimeout = setTimeout(
+			window.clearTimeout( this.invalidationTimeout );
+			this.invalidationTimeout = window.setTimeout(
 				() => this.invalidateConnections(),
 				0,
 			);

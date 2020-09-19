@@ -43,7 +43,9 @@
 		"husky": "^4.2.5",
 		"lint-staged": "^10.2.11",
 		"rollup": "^2.22.2",
+		"rollup-plugin-terser": "^7.0.2",
 		"rollup-plugin-typescript2": "^0.27.1",
+		"ts-transformer-properties-rename": "^0.8.0",
 		"tslib": "^2.0.0",
 		"typescript": "^3.9.7"
 	},
