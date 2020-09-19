@@ -6,7 +6,7 @@ export default class Destination extends OperativeNode {
 		super( props );
 
 		this.context.ready( ctx => {
-			this.node = ctx.destination;
+			this.bindNode( ctx.destination );
 		});
 	}
 

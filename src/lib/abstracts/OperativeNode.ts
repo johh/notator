@@ -14,7 +14,9 @@ export default abstract class OperativeNode extends Node {
 
 	// since all children are connected to a single AudioNode,
 	// they won't be affected by upstream changes.
-	protected autoInvalidateChildren = false;
+	// the node does not yet exist though, so downstream
+	// connections will have to change once it does.
+	protected autoInvalidateChildren = true;
 
 	constructor({
 		context = defaultContext,
@@ -22,6 +24,15 @@ export default abstract class OperativeNode extends Node {
 		super();
 
 		this.context = context;
+	}
+
+
+	protected bindNode( node: AudioNode ): void {
+		this.node = node;
+		this.invalidateConnections();
+		// the node has been initialised,
+		// downstream connections will no longer change
+		this.autoInvalidateChildren = false;
 	}
 
 

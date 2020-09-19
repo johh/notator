@@ -31,7 +31,7 @@ export default class Source extends OperativeNode {
 		this.src = src;
 		this.gain = gain;
 		this.context.ready( ( ctx ) => {
-			this.node = ctx.createGain();
+			this.bindNode( ctx.createGain() );
 			this.node.gain.value = 0;
 
 			this.sourceNode = ctx.createBufferSource();

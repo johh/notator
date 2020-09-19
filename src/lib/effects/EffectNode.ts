@@ -8,7 +8,7 @@ export default abstract class EffectNode<T extends AudioNode> extends OperativeN
 		super( props );
 
 		this.context.ready( ( ctx ) => {
-			this.node = factory( ctx );
+			this.bindNode( factory( ctx ) );
 		});
 	}
 
