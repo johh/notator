@@ -8,7 +8,14 @@
 	"author": "johh <code@johh.net>",
 	"license": "BSD-4-Clause",
 	"private": false,
-	"keywords": [],
+	"sideEffects": false,
+	"keywords": [
+		"reactive",
+		"interactive",
+		"soundtrack",
+		"audio",
+		"webaudio"
+	],
 	"scripts": {
 		"build": "rollup -c",
 		"declaration": "tsc --emitDeclarationOnly",
