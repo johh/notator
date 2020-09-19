@@ -3,7 +3,7 @@ rollup.config.js
 tsconfig.json
 tslint.json
 .eslintrc.js
-.eslinignore
+.eslintignore
 .editorconfig
 .clang-format
 .nvmrc
