@@ -2,6 +2,8 @@ src/
 rollup.config.js
 tsconfig.json
 tslint.json
+.eslintrc.js
+.eslinignore
 .editorconfig
 .clang-format
 .nvmrc
