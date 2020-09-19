@@ -4,7 +4,7 @@ export { default as defaultDestination } from './lib/defaults/defaultDestination
 export { default as Timeline } from './lib/Timeline';
 export { default as Track } from './lib/Track';
 export { default as Part } from './lib/Part';
-export { default as ActionSound } from './lib/ActionSound';
+export { default as Sound } from './lib/Sound';
 
 export { default as BiquadFilter } from './lib/effects/BiquadFilter';
 export { default as Convolver } from './lib/effects/Convolver';

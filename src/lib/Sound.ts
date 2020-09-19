@@ -2,17 +2,17 @@ import type Timeline from './Timeline';
 import Playable, { PlayableProps } from './abstracts/Playable';
 
 
-interface ActionSoundProps extends PlayableProps {
+interface SoundProps extends PlayableProps {
 	quantize?: number;
 }
 
-export default class ActionSound extends Playable {
+export default class Sound extends Playable {
 	private readonly quantize: number;
 
 	constructor({
 		quantize = 0,
 		...rest
-	}: ActionSoundProps ) {
+	}: SoundProps ) {
 		super( rest );
 		this.quantize = quantize;
 	}

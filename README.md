@@ -30,7 +30,7 @@ import {
 	Timeline,
 	Track,
 	Part,
-	ActionSound,
+	Sound,
 } from 'notator';
 
 import drums from './path/to/drums.mp3';
@@ -56,7 +56,7 @@ const part = new Part({
 	],
 });
 
-const sound = new ActionSound({
+const sound = new Sound({
 	src: click,
 	quantize: 1 / 16,
 	gain: 2, // boost volume
@@ -75,7 +75,7 @@ document.addEventListener( 'click', () => {
 
 ### Effects
 
-Audio effects can be added to `Timelines`, `Parts`, `Tracks` and `ActionSounds`.
+Audio effects can be added to `Timelines`, `Parts`, `Tracks` and `Sounds`.
 
 ```typescript
 import {
@@ -83,8 +83,8 @@ import {
 	Timeline,
 	Track,
 	Part,
-	ActionSound,
-	
+	Sound,
+
 	Gain,
 	BiquadFilter,
 	DynamicsCompressor,
