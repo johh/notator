@@ -5,7 +5,6 @@ export default function loadAudio(
 	input: AudioBuffer | ArrayBuffer | string,
 	context: Context,
 ): Promise<AudioBuffer> {
-	console.log( context );
 	return new Promise( ( resolve, reject ) => {
 		if ( input instanceof AudioBuffer ) {
 			resolve( input );
