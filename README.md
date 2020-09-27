@@ -1,8 +1,12 @@
 # notator
-#### A Web Audio engine for reactive soundtracks
+
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/notator?color=green&style=for-the-badge) ![npm dependencies](https://img.shields.io/david/johh/notator?color=green&style=for-the-badge)
+
+Reactive/Adaptive soundtracks for the web.
 
 
 ## Browser support
+
 **notator** is built on top of the Web Audio API, which is still in the working draft stage.
 All modern browsers are supported.
 
@@ -13,6 +17,7 @@ All modern browsers are supported.
 [Web Audio API browser support](https://caniuse.com/#feat=audio-api)
 
 ## Installation
+
 ```
 yarn add notator
 ```
@@ -160,7 +165,9 @@ ctrl.set( 'gain', .5 );
 ```
 
 ## Troubleshooting
+
 #### Audio cuts out entirely for a second once a new sound is played
+
 This happens because the browsers' audio system is overloaded. Try reducing the amount of sounds being played simultaneously or the number of effects used. Complex effects like Convolvers are especially taxing.
 Firefox seems to have a problem with Convolvers in general, so use them with caution for now.
 
@@ -173,9 +180,11 @@ Do you, by any chance, have multiple tabs/windows of the same project open? Yeah
 ---
 
 ## Naming
+
 **notator** is named after Notator SL, a MIDI sequencer for the Atari ST.
 
 ## Todo
+
 * docs
 * support for audio sprites
 * hooks to randomise/vary playback
@@ -184,4 +193,5 @@ Do you, by any chance, have multiple tabs/windows of the same project open? Yeah
 * testing
 
 ## Licence
+
 © 2020 [DOWNPOUR DIGITAL](https://downpour.digital), licensed under BSD-4-Clause

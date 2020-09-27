@@ -1,7 +1,7 @@
 {
 	"name": "notator",
 	"version": "1.0.0-rc.2",
-	"description": "reactive soundtracks for the web",
+	"description": "Reactive/adaptive soundtracks for the web",
 	"main": "dist/cjs/notator.js",
 	"module": "dist/esm/notator.js",
 	"repository": "https://github.com/johh/notator.git",
@@ -11,6 +11,7 @@
 	"sideEffects": false,
 	"keywords": [
 		"reactive",
+		"adaptive",
 		"interactive",
 		"soundtrack",
 		"audio",
