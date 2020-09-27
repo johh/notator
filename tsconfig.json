@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"sourceMap": true,
+		"declaration": true,
+		"declarationDir": "./dist/",
+		"noImplicitAny": true,
+		"module": "es6",
+		"target": "es6",
+		"jsx": "react",
+		"esModuleInterop": false,
+		"removeComments": true,
+		"lib": [
+			"ES2019",
+			"dom",
+			"webworker",
+		],
+		"plugins": []
+	},
+	"include": [
+		"./src/**/*",
+		"./*.config.js",
+	]
+}
