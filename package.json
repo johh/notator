@@ -1,6 +1,6 @@
 {
 	"name": "notator",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Reactive/adaptive soundtracks for the web",
 	"main": "dist/cjs/notator.js",
 	"module": "dist/esm/notator.js",
