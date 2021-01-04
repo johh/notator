@@ -70,7 +70,7 @@ export default class Source extends OperativeNode {
 
 	public play( time = 0 ): void {
 		this.sourceNode.start( time );
-		this.node.gain.setTargetAtTime( this.gain, time, .02 );
+		this.node.gain.setTargetAtTime( this.gain, Math.max( time, this.context.getTime() ), .02 );
 	}
 
 
